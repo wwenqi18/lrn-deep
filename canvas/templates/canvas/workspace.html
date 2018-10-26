@@ -9,8 +9,8 @@
         <link href="{% static "canvas/css/simple-sidebar.css" %}" rel="stylesheet">
         <!-- Custom styles for this view -->
         <link href="{% static "canvas/css/canvas.css" %}" rel="stylesheet">
-        <link href="{% static "canvas/css/prism.css" %}" rel="stylesheet">
         <link href="{% static "canvas/css/code.css" %}" rel="stylesheet">
+        <link href="{% static "canvas/css/prism.css" %}" rel="stylesheet">
         <!-- Custom fonts for this template -->
         <link href="{%static "vendor/fontawesome-free/css/all.min.css" %}" rel="stylesheet"> 
         <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
@@ -33,10 +33,11 @@
             <!-- Sidebar -->
             <div id="sidebar-wrapper">
                 <ul class="sidebar-nav">
-                    <li class="sidebar-brand"><a href="#">LrnDeep</a></li>
+                    <li class="sidebar-brand">
+                        <a href="{% url 'canvas:index' %}">LrnDeep</a>
+                    </li>
                     <li><a href="#">New</a></li>
                     <li><a href="#">Open</a></li>
-                    <li><a href="#">Save</a></li>
                     <li><a href="#">Help</a></li>
                     <li><a href="#">Settings</a></li>
                     <li><a href="#">Logout</a></li>
@@ -51,19 +52,26 @@
                         
                         <!-- canvas wrapper -->
                         <div id="canvas-wrapper" class="col-md-8">
-                            
                             <!-- topbar -->
                             <div id="topbar-wrapper">
-                                <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Menu</a>
-                                <a href="" class="btn btn-secondary" id="menu-toggle">Compile</a>
-<!--                                <a href="" class="btn btn-secondary" id="menu-toggle">Save</a>-->
+                                <a href="#menu-toggle" class="topbar-btn btn btn-secondary" id="menu-toggle">Menu</a>
+                                <a href="" class="topbar-btn btn btn-secondary" id="topbar-btn-compile">Compile</a>
+                                <a href="" class="topbar-btn btn btn-secondary" id="topbar-btn-save">Save</a>
+                                <a href="" class="topbar-btn btn btn-secondary" id="topbar-btn-export">Export</a>
                             </div>
-                            
                             <!-- canvas -->
                             <div id="canvas">
+
+<!--
                                 <div id="canvas-diagram" class="canvas-section" style="height: 300px; background-color: #C1D5E3;"></div>
                                 <div id="canvas-warehouse" class="canvas-section" style="height: 150px; background-color: #C1D5E3;"></div>
                                 <div id="canvas-palette" class="canvas-section" style="height: 200px; background-color: #C1D5E3;"></div>
+-->
+                                
+                                <div id="canvas-diagram" class="canvas-section"></div>
+                                <div id="canvas-warehouse" class="canvas-section"></div>
+                                <div id="canvas-palette" class="canvas-section"></div>
+
                             </div>
                             
                         </div>

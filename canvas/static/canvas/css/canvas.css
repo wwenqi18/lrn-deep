@@ -1,5 +1,7 @@
 #topbar-wrapper {
-    padding-bottom: 20px;
+    background: #ffffff;
+    border-radius: 5px 5px 0 0;
+    padding: 5px;
 }
 
 #topbar-wrapper a {
@@ -12,6 +14,28 @@
     letter-spacing: 1px;
 }
 
-.canvas-section {
-    margin-bottom: 20px;
+.topbar-btn {
+    background: #4d6d9a;
+    border-color: #4d6d9a;
+}
+
+.topbar-btn:hover {
+    background: #99CED3;
+    border-color: #99CED3;
+}
+
+#canvas-diagram {
+    background: #ffffff;
+    height: 270px;
+}
+
+#canvas-warehouse {
+    background: #99CED3;
+    height: 210px;
+}
+
+#canvas-palette {
+    background: #4d6d9a;
+    border-radius: 0 0 5px 5px;
+    height: 225px;
 }

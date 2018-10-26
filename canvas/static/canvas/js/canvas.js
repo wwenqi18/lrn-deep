@@ -5,6 +5,7 @@ function init() {
     diagram = $(go.Diagram, "canvas-diagram", {
         allowDrop: true, // must be true to accept drops from the palette
         allowVerticalScroll: false,
+        allowHorizontalScroll: false,
         layout: $(go.LayeredDigraphLayout),
         "ExternalObjectsDropped": function(e) {
                       if (warehouse.commandHandler.canDeleteSelection() &&
@@ -36,6 +37,7 @@ function init() {
             allowDrop: true, // must be true to accept drops from the palette
             allowDragOut: true,
             allowVerticalScroll: false,
+            allowHorizontalScroll: false,
              "ExternalObjectsDropped": function(e) {
                       if (diagram.commandHandler.canDeleteSelection() &&
                           !(diagram.lastInput.control || diagram.lastInput.meta)) {
@@ -67,7 +69,7 @@ function init() {
     // canvas palette
     function mouseEnter(e, obj) {
         var shape = obj.findObject("SHAPE");
-        shape.fill = "#86b3d1";
+        shape.fill = "#C1D5E3";
         shape.stroke = null;
         var text = obj.findObject("TEXT");
         text.stroke = "#5f6366";
@@ -94,7 +96,7 @@ function init() {
     
     palette.model = $(go.GraphLinksModel, {
         nodeDataArray: [
-            {key: "add", color: "#4d6d9a"},
+            {key: "add", color: "#86b3d1"},
         ]    
     });
     
@@ -104,7 +106,7 @@ function init() {
             mouseLeave: mouseLeave
         }, 
         $(go.Shape, 'Trapezoid', 
-            {"name": "SHAPE", "stroke": "#C1D5E3", "angle": 90, "width": 120, "height": 50}, 
+            {"name": "SHAPE", "stroke": "#4d6d9a", "angle": 90, "width": 120, "height": 50}, 
           new go.Binding("fill", "color")),
         $(go.TextBlock,
             {margin: 10, font: "bold 14px Varela Round", name: "TEXT", stroke: "white"},
@@ -116,7 +118,7 @@ function init() {
     palette.add($(go.Part,  // this is just a visual comment
                 { location: new go.Point(-40, 140) },
                 $(go.TextBlock, "Fully connected layer",
-                  { font: "bold 14px Varela Round", stroke: "grey" })
+                  { font: "bold 14px Varela Round", stroke: "white" })
               ));
     
 }
