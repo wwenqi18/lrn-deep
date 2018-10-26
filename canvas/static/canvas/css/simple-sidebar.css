@@ -28,7 +28,7 @@ body {
   height: 100%;
   margin-left: -250px;
   overflow-y: auto;
-  background: #000;
+  background: #4d6d9a;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -80,7 +80,7 @@ body {
   text-decoration: none;
   color: #fff;
   /*  background: rgba(255, 255, 255, 0.2);*/
-  background: #C9B7C0;
+  background: #86b3d1;
 }
 
 .sidebar-nav li a:active, .sidebar-nav li a:focus {

@@ -151,22 +151,22 @@
 
 .btn-primary {
 /*  background-color: #64a19d;*/
-    background-color: lightpink;
+    background-color: #4D6D9A;
 }
 
 .btn-primary:hover {
 /*  background-color: #4f837f;*/
-    background-color: lightpink;
+    background-color: #86B3D1;
 }
 
 .btn-primary:focus {
 /*  background-color: #4f837f;*/
-    background-color: lightpink;
+    background-color: #86B3D1;
   color: white;
 }
 
 .btn-primary:active {
-  background-color: #467370 !important;
+  background-color: #86B3D1 !important;
 }
 
 .about-section {
