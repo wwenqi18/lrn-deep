@@ -23,12 +23,12 @@ body {
 #sidebar-wrapper {
   z-index: 1000;
   position: fixed;
-  left: 250px;
-  width: 0;
+  left: 200px;
+  width: 200px;
   height: 100%;
-  margin-left: -250px;
+  margin-left: -200px;
   overflow-y: auto;
-  background: #000;
+  background: #4d6d9a;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -36,10 +36,11 @@ body {
 }
 
 #wrapper.toggled #sidebar-wrapper {
-  width: 250px;
+  width: 0;
 }
 
 #page-content-wrapper {
+  background: #86b3d1;
   width: 100%;
   position: absolute;
   padding: 15px;
@@ -47,7 +48,7 @@ body {
 
 #wrapper.toggled #page-content-wrapper {
   position: absolute;
-  margin-right: -250px;
+  margin-right: -200px;
 }
 
 
@@ -56,7 +57,7 @@ body {
 .sidebar-nav {
   position: absolute;
   top: 0;
-  width: 250px;
+  width: 200px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -70,7 +71,7 @@ body {
 .sidebar-nav li a {
   display: block;
   text-decoration: none;
-  color: #999999;
+  color: #fff;
   font-family: 'Varela Round';
   font-size: 18px;
   letter-spacing: 1px;
@@ -80,7 +81,7 @@ body {
   text-decoration: none;
   color: #fff;
   /*  background: rgba(255, 255, 255, 0.2);*/
-  background: #C9B7C0;
+  background: #99CED3;
 }
 
 .sidebar-nav li a:active, .sidebar-nav li a:focus {
@@ -94,7 +95,7 @@ body {
 }
 
 .sidebar-nav>.sidebar-brand a {
-  color: #999999;
+  color: #fff;
   font-family: 'Varela Round';
   letter-spacing: 3px;
   font-size: 24px;
@@ -107,16 +108,16 @@ body {
 
 @media(min-width:768px) {
   #wrapper {
-    padding-left: 0;
+    padding-left: 200px;
   }
   #wrapper.toggled {
-    padding-left: 250px;
+    padding-left: 0;
   }
   #sidebar-wrapper {
-    width: 0;
+    width: 200px;
   }
   #wrapper.toggled #sidebar-wrapper {
-    width: 250px;
+    width: 0;
   }
   #page-content-wrapper {
     padding: 20px;
