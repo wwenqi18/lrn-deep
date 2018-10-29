@@ -55,8 +55,8 @@
                             <!-- topbar -->
                             <div id="topbar-wrapper">
                                 <a href="#menu-toggle" class="topbar-btn btn btn-secondary" id="menu-toggle">Menu</a>
-                                <a href="" class="topbar-btn btn btn-secondary" id="topbar-btn-compile">Compile</a>
-                                <a href="" class="topbar-btn btn btn-secondary" id="topbar-btn-save">Save</a>
+                                <a href="#compile-diagram" class="topbar-btn btn btn-secondary" id="topbar-btn-compile">Compile</a>
+                                <a href="#save-diagram" class="topbar-btn btn btn-secondary" id="save-diagram">Save</a>
                                 <a href="" class="topbar-btn btn btn-secondary" id="topbar-btn-export">Export</a>
                             </div>
                             <!-- canvas -->
@@ -98,6 +98,17 @@ print(x)</code></pre>
             $("#menu-toggle").click(function(e) {
                 e.preventDefault();
                 $("#wrapper").toggleClass("toggled");
+            });
+            $("#compile-diagram").click(function(e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+            $("#save-diagram").click(function(e) {
+                e.preventDefault();
+                diagram.model.modelData.position = go.Point.stringify(diagram.position);
+                document.getElementById("generated-code").innerHTML = "abc";
+                console.log(diagram.model.nodeDataArray);
+                console.log(document.getElementById("generated-code").value);
             });
         </script>
         
