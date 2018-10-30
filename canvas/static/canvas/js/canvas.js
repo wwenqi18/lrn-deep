@@ -54,14 +54,20 @@ function init() {
 //        ]    
 //    });
 //    
-    warehouse.nodeTemplate = $(go.Node, 'Auto', $(go.Shape, 'Trapezoid', 
+    warehouse.nodeTemplate = $(go.Node, 'Auto', 
+                               $(go.Shape, 'Trapezoid', 
                                                   {"fill": "#999999",
                                                   "stroke": "grey",
                                                    "strokeWidth": 2,
                                                    "angle": 90,
                                                    "width": 120,
                                                    "height": 50
-                                                  }));
+                                                  }),
+                              $(go.TextBlock,
+                                { margin: 10, angle: 90,
+                                font: "14px Varela Round", stroke: "white"},
+                                new go.Binding("text", "key"))
+                              );
     
     // diagram and warehouse share the same template and undo manager
     diagram.nodeTemplate = warehouse.nodeTemplate;
@@ -98,7 +104,7 @@ function init() {
             alert("Please enter valid dimensions!");
         } else {
             //createObject(input, output);    
-            warehouse.model.addNodeData({key: 2, category: "second"})
+            warehouse.model.addNodeData({key: input+", "+output, category: ""+output})
         }
         obj.findObject("SHAPE").innerHTML = txt;
     }
