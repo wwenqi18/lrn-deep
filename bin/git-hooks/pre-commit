@@ -5,5 +5,5 @@
 
 # Adopted from https://github.com/gailkaiser/coms4156_jumpstart
 
+echo "Performing pre-commit building and testing..."
 python3 manage.py test
-echo "hi, your pre-commit is working"
