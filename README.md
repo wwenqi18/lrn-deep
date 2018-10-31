@@ -1,4 +1,4 @@
-# lrn-deep
+# lrn-deep [![Build Status](https://travis-ci.org/CathyMouse96/lrn-deep.svg?branch=master)](https://travis-ci.org/CathyMouse96/lrn-deep)
 A Web application for building neural networks interactively.
 
 ## Installation
