@@ -7,4 +7,4 @@
 
 echo "Performing pre-commit building and testing..."
 python3 manage.py test
-pylint ../../lrndeep >> ../../reports/precommit_report.txt
+pylint lrndeep
