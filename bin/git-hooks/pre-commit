@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# Simple pre-commit script that runs the test suite.
+# See .git/hooks/pre-commit.sample for other examples.
+
+# Adopted from https://github.com/gailkaiser/coms4156_jumpstart
+
+python3 manage.py test
