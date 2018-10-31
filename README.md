@@ -7,9 +7,9 @@ Clone repo:
 $ git clone https://github.com/CathyMouse96/lrn-deep.git
 ```
 
-Install Django (Make sure you have Python 3 installed):
+Install prerequisites (Make sure you have Python 3 installed):
 ```sh
-$ pip install Django==2.1.2
+$ pip install -r requirements.txt
 ```
 
 ## Usage
@@ -20,3 +20,11 @@ $ python3 manage.py runserver
 ```
 
 The server will start at http://127.0.0.1:8000/.
+
+## Contributing
+Enable pre-commit building and testing:
+```sh
+$ bin/git-hooks/hook-setup.sh
+```
+
+Pre-commit building and testing will be performed before each commit.
