@@ -11,4 +11,7 @@ install:
   - pip install -r requirements.txt
 # command to run tests
 script:
+  - python3 -m pylint -ry --load-plugins pylint_django canvas/
+  - python3 -m pylint -ry --load-plugins pylint_django lrndeep/
+  - python3 -m pylint -ry --load-plugins pylint_django users/
   - python3 manage.py test
