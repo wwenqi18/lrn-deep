@@ -1,3 +1,5 @@
+""" Configuration file for canvas app """
+
 from django.apps import AppConfig
 
 

@@ -1,3 +1,5 @@
+""" Urls for canvas app """
+
 from django.urls import path
 
 from . import views
