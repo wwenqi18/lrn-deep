@@ -7,5 +7,6 @@
 
 echo "Performing pre-commit building and testing..."
 python3 manage.py test
+cd js_test; npm test; cd ..
 #pylint ../../lrndeep >> ../../reports/precommit_report.txt
 #pylint lrndeep
