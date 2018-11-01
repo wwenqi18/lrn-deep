@@ -24,6 +24,7 @@
         <script src="{% static "canvas/js/go-debug.js" %}"></script>
         <!-- Custom scripts for this view -->
         <script src="{% static "canvas/js/canvas.js" %}"></script>
+        <script src="{% static "canvas/js/compile.js" %}"></script>
         <script src="{% static "canvas/js/prism.js" %}"></script>
     </head>
     
@@ -55,7 +56,7 @@
                             <!-- topbar -->
                             <div id="topbar-wrapper">
                                 <a href="#menu-toggle" class="topbar-btn btn btn-secondary" id="menu-toggle">Menu</a>
-                                <a href="#compile-diagram" class="topbar-btn btn btn-secondary" id="topbar-btn-compile">Compile</a>
+                                <a href="#compile-diagram" class="topbar-btn btn btn-secondary" id="compile-diagram">Compile</a>
                                 <a href="#save-diagram" class="topbar-btn btn btn-secondary" id="save-diagram">Save</a>
                                 <a href="" class="topbar-btn btn btn-secondary" id="topbar-btn-export">Export</a>
                             </div>
@@ -81,11 +82,7 @@
                         
                         <!-- code-wrapper -->
                         <div id="code-wrapper" class="col-md-4">
-                            <pre><code id="generated-code" class="language-python"># This is the code display:
-x = 0
-for i in range(100):
-    x += i
-print(x)</code></pre>
+                            <pre><code id="generated-code" class="language-python">"""The Deep Learning [default] model, powered by LrnDeep"""</code></pre>
                         </div>
                     </div>
                 </div>
@@ -103,14 +100,19 @@ print(x)</code></pre>
             });
             $("#compile-diagram").click(function(e) {
                 e.preventDefault();
-                $("#wrapper").toggleClass("toggled");
+                diagramNodes = diagram.model.nodeDataArray;
+                // console.log(diagramNodes);
+                var network = [];
+                for (i = 0; i < diagramNodes.length; i++) {
+                    network.push({"name": "FC", "output_shape": diagramNodes[i]["output"]});
+                }
+                var network_name = "default"
+                generatedCode = compile(network, network_name);
+                document.getElementById("generated-code").innerHTML = generatedCode;
+                Prism.highlightElement(document.getElementById("generated-code"));
             });
             $("#save-diagram").click(function(e) {
                 e.preventDefault();
-                diagram.model.modelData.position = go.Point.stringify(diagram.position);
-                document.getElementById("generated-code").innerHTML = "abc";
-                console.log(diagram.model.nodeDataArray);
-                console.log(document.getElementById("generated-code").value);
             });
         </script>
         
