@@ -1,7 +1,7 @@
 function init() {
     var $ = go.GraphObject.make;
     
-    // canvas diagram 
+    // diagram 
     diagram = $(go.Diagram, "canvas-diagram", {
         allowDrop: true, // must be true to accept drops from the palette
         allowVerticalScroll: false,
@@ -33,7 +33,7 @@ function init() {
     //diagram.toolManager.draggingTool.gridSnapOrigin = new go.Point(0, 0);
     
     
-    // canvas warehouse
+    // warehouse
     warehouse = $(go.Diagram, "canvas-warehouse", {
             allowDrop: true, // must be true to accept drops from the palette
             allowDragOut: true,
@@ -47,13 +47,7 @@ function init() {
              },
             layout: $(go.GridLayout)
     });
-    
-//    warehouse.model = $(go.GraphLinksModel, {
-//        nodeDataArray: [
-//            {key: 1, category: "first"},
-//        ]    
-//    });
-//    
+     
     warehouse.nodeTemplate = $(go.Node, 'Auto', 
                                $(go.Shape, 'Trapezoid', 
                                                   {"fill": "#999999",
@@ -66,7 +60,7 @@ function init() {
                               $(go.TextBlock,
                                 { margin: 10, angle: 90,
                                 font: "14px Varela Round", stroke: "white"},
-                                new go.Binding("text", "key"))
+                                new go.Binding("text", "disp"))
                               );
     
     // diagram and warehouse share the same template and undo manager
@@ -75,7 +69,7 @@ function init() {
     //diagram.model.undoManager.isEnabled = true;
     
     
-    // canvas palette
+    // palette
     function mouseEnter(e, obj) {
         var shape = obj.findObject("SHAPE");
         shape.fill = "#C1D5E3";
@@ -96,21 +90,19 @@ function init() {
     
     var input = 0;
     var output = 0;
+    var id = 0;
     function click() {
         var txt;
         input = prompt("Please enter input dimension: ", "100");
         output = prompt("Please enter output dimension: ", "100");
         if (input == null || input == "" || output == null || output == "") {
             alert("Please enter valid dimensions!");
-        } else {
-            //createObject(input, output);    
-            warehouse.model.addNodeData({key: input+", "+output, category: ""+output})
+        } else {   
+            id += 1;
+            //warehouse.model.addNodeData({key: input+", "+output, category: ""+output})
+            warehouse.model.addNodeData({key: id, input: ""+input, output: ""+output, disp: input+", "+output})
         }
         obj.findObject("SHAPE").innerHTML = txt;
-    }
-    
-    function createObject(input, output) {
-          
     }
     
     palette = $(go.Diagram, "canvas-palette", {
