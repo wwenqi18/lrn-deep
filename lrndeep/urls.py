@@ -24,3 +24,4 @@ urlpatterns = [
     path('canvas/', include('canvas.urls')),
     path('admin/', admin.site.urls),
 ]
+#dhoafh
