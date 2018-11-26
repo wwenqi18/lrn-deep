@@ -32,6 +32,42 @@ function init() {
     diagram.toolManager.draggingTool.gridSnapCellSize = new go.Size(25, 25);
     //diagram.toolManager.draggingTool.gridSnapOrigin = new go.Point(0, 0);
     
+    // enable link drawing between shapes
+    diagram.toolManager.linkingTool.temporaryLink =
+    $(go.Link,
+      { layerName: "Tool" },
+      $(go.Shape,
+        { stroke: "#999999", strokeWidth: 2, strokeDashArray: [4, 2] })
+    );
+
+    var tempfromnode =
+    $(go.Node,
+        { layerName: "Tool" }
+//        $(go.Shape, "RoundedRectangle",
+//        { stroke: "cyan", strokeWidth: 3, fill: null,
+//         portId: "", width: 1, height: 1, angle: 90 })
+    );
+    diagram.toolManager.linkingTool.temporaryFromNode = tempfromnode;
+    diagram.toolManager.linkingTool.temporaryFromPort = tempfromnode.port;
+
+    var temptonode =
+        $(go.Node,
+        { layerName: "Tool" }
+//        $(go.Shape, "RoundedRectangle",
+//        { stroke: "cyan", strokeWidth: 3, fill: null,
+//          portId: "", width: 1, height: 1 })
+        );
+    diagram.toolManager.linkingTool.temporaryToNode = temptonode;
+    diagram.toolManager.linkingTool.temporaryToPort = temptonode.port;
+    
+    // set link appearance
+    diagram.linkTemplate =
+    $(go.Link,
+      $(go.Shape,
+       { strokeWidth: 2, stroke: "grey"}),  // the link shape
+      $(go.Shape,   // the arrowhead
+        { toArrow: "Triangle", stroke: "grey", fill: "grey" })
+    );
     
     // warehouse
     warehouse = $(go.Diagram, "canvas-warehouse", {
@@ -55,7 +91,10 @@ function init() {
                                                    "strokeWidth": 2,
                                                    "angle": 90,
                                                    "width": 120,
-                                                   "height": 50
+                                                   "height": 50,
+                                                   portId: "", 
+                                                   fromLinkable: true, toLinkable: true, 
+                                                   //cursor: "pointer" 
                                                   }),
                               $(go.TextBlock,
                                 { margin: 10, angle: 90,
@@ -127,7 +166,8 @@ function init() {
             click: click
         }, 
         $(go.Shape, 'Trapezoid', 
-            {"name": "SHAPE", "stroke": "#4d6d9a", "angle": 90, "width": 120, "height": 50}, 
+            {"name": "SHAPE", "stroke": "#4d6d9a", "angle": 90, "width": 120, "height": 50, 
+             cursor: "pointer"}, 
           new go.Binding("fill", "color")),
         $(go.TextBlock,
             {margin: 10, font: "bold 14px Varela Round", name: "TEXT", stroke: "white"},
