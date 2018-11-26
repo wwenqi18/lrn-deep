@@ -12,5 +12,6 @@ script:
 - python3 -m pylint -ry --load-plugins pylint_django lrndeep/ --disable=C,R,W
 - python3 -m pylint -ry --load-plugins pylint_django users/ --disable=C,R,W
 - python3 manage.py test
+- cd js_test; npm test; cd ..
 dd:
   secure: edPq31IMYXxPRY4huc19TlBljeYYtb39D+m4bE65yj3kKkxpwZHgJDk3I8sy8DMe4zOoIU7XRvrwEOyXwCV/d91ozqOxBd8Sqe0P8VtaDbtrO2UD9nGnITYIT6119/S1nhIjrom/R8PEVSq9tALxqv/rdZfNcxE+Xr1fSoBPrXzH4cOrCAUpkOqCOcTjGg6uijtA/djSU+ZMKUw76U8xA8hR7uIT21tGNA25n8nlwr6l/5RVvLk+Oid3ClqVusQs6Bt5d6vQsc+EnDpjtMHU7CsIAfY0MR7TTNiY7focMPG131EeQgzmjIC8DrNC270s9t2e8iYtCR0N5hJ9vilSozdQ2N1GtEeTKBse4MuAL+2xuBvBTxud6YGwJCc73amRJuir+ouavaT2TBfbpVmIRT1nyE0qwUbG9L+Fs1Bb65GUqOsAN4XYfVa4ZIwRtf32VbcE+Qe/Cj+bC20dCA2O6CJU0krYwvf9coaTduTc6zJIz1Ib06mxe5NmwgUCDs4jYFhWOXJS+gEK+2cmwNCf5Eyyc7H4LcuprRtBUJk+0WJBXWHvD8jP4kuplPfHX6Oq+5/FkMmvNgWMVP7O6oVFsdVkE94HT3gvn/s/27zOe0TeQKPOXPvlTbmxIUGOijx8gdlN4YYa75++aoJ3vxQjj8tbgEVAdnzkAZTYI6T1Uzk=
