@@ -3,6 +3,7 @@ from django.urls import reverse_lazy, reverse
 from django.views import generic
 from django.http import HttpResponse
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 
 from .forms import CustomUserCreationForm
 
@@ -35,3 +36,8 @@ def LogIn(request):
             return render(request, 'users/login.html', {'error': 'username or password error!'})
     else:
         return render(request, 'users/login.html')
+
+@login_required
+def LogOut(request):
+    auth.logout(request)
+    return redirect('canvas:index')

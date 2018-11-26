@@ -39,7 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+   
+    'werkzeug_debugger_runserver',
+    'django_extensions',
+    'social_django',
 ]
+
+#SECURE_SSL_REDIRECT = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -49,6 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'lrndeep.urls'
@@ -64,10 +72,40 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
+
+#add for third-party api
+AUTHENTICATION_BACKENDS = (
+    #'social_core.backends.github.GithubOAuth2',
+    #'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '853033979152-3kiino5fb4grqav8o681ue5umovn9gvn.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'qSlydjs7zrCe-vLOAvO-39BR'
+SOCIAL_AUTH_FACEBOOK_KEY = '2328284070578908'
+SOCIAL_AUTH_FACEBOOK_SECRET = '77bfa7b55537dd6bfb41c6b9bbdbaa31'
+SOCIAL_AUTH_PIPELINE = (
+  'social_core.pipeline.social_auth.social_details',
+  'social_core.pipeline.social_auth.social_uid',
+  'social_core.pipeline.social_auth.auth_allowed',
+  'social_core.pipeline.social_auth.social_user',
+  'social_core.pipeline.user.get_username',
+  'social_core.pipeline.social_auth.associate_by_email',
+  'social_core.pipeline.user.create_user',
+  'social_core.pipeline.social_auth.associate_user',
+  'social_core.pipeline.social_auth.load_extra_data',
+  'social_core.pipeline.user.user_details',
+)
 
 WSGI_APPLICATION = 'lrndeep.wsgi.application'
 
@@ -127,7 +165,7 @@ STATICFILES_DIRS = [
 ]
 
 
-# LOGIN_REDIRECT_URL = 'canvas:index'
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
+LOGIN_URL = 'users:signup'
+LOGIN_REDIRECT_URL = 'canvas:index'
+LOGOUT_REDIRECT_URL = 'canvas:index'
 AUTH_USER_MODEL = 'users.CustomUser'
