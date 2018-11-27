@@ -9,7 +9,7 @@ $ git clone https://github.com/CathyMouse96/lrn-deep.git
 
 Install prerequisites (Make sure you have Python 3 installed):
 ```sh
-$ pip install -r requirements.txt
+$ pip3 install -r requirements.txt
 ```
 
 ## Usage
@@ -20,6 +20,15 @@ $ python3 manage.py runserver
 ```
 
 The server will start at http://127.0.0.1:8000/.
+
+## Troubleshooting
+1. You have 1 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): users.
+Solution: Run `python3 manage.py migrate --run-syncdb`.
+
+2. django.db.migrations.exceptions.InconsistentMigrationHistory
+Solution: Delete 'canvas/migrations' and 'users/migrations' and run `python3 manage.py makemigrations`.
+
+3. For other issues please search existing issues or post an issue.
 
 ## Contributing
 Enable pre-commit building and testing:
