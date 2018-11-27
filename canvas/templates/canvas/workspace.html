@@ -108,7 +108,10 @@
                 }
                 var network_name = "default"
                 generatedCode = compile(network, network_name);
+                // Allow animation for generating code
+                $('#generated-code').fadeOut('fast');
                 document.getElementById("generated-code").innerHTML = generatedCode;
+                $('#generated-code').fadeIn('fast');
                 Prism.highlightElement(document.getElementById("generated-code"));
             });
             $("#save-diagram").click(function(e) {
