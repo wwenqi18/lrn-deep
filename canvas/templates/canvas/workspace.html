@@ -6,7 +6,7 @@
         <!-- Bootstrap core CSS -->
         <link href="{% static "vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
         <!-- Custom styles for this template -->
-        <link href="{% static "canvas/css/simple-sidebar.css" %}" rel="stylesheet">
+        <!-- <link href="{% static "canvas/css/simple-sidebar.css" %}" rel="stylesheet"> -->
         <!-- Custom styles for this view -->
         <link href="{% static "canvas/css/canvas.css" %}" rel="stylesheet">
         <link href="{% static "canvas/css/code.css" %}" rel="stylesheet">
@@ -22,6 +22,8 @@
         <script src="{% static "vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
         <!-- GoJS core JavaScript -->
         <script src="{% static "canvas/js/go-debug.js" %}"></script>
+        <!-- GoJS script for testing -->
+        <script src="https://gojs.net/latest/extensions/Robot.js"></script>
         <!-- Custom scripts for this view -->
         <script src="{% static "canvas/js/canvas.js" %}"></script>
         <script src="{% static "canvas/js/compile.js" %}"></script>
@@ -29,76 +31,41 @@
     </head>
     
     <body>
-        
-        <div id="wrapper">
-            <!-- Sidebar -->
-            <div id="sidebar-wrapper">
-                <ul class="sidebar-nav">
-                    <li class="sidebar-brand">
-                        <a href="{% url 'canvas:index' %}">LrnDeep</a>
-                    </li>
-                    <li><a href="#">New</a></li>
-                    <li><a href="#">Open</a></li>
-                    <li><a href="#">Help</a></li>
-                    <li><a href="#">Settings</a></li>
-										<li><a href="{% url 'users:logout' %}">Logout</a></li>
-                </ul>
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Top Bar -->
+                <div id="topbar-wrapper" class="col-md-12">
+                    <a href="{% url 'canvas:index' %}" class="topbar-logo btn btn-secondary" id="topbar-brand">LrnDeep</a>
+                    <a href="#" class="topbar-btn btn btn-secondary" id="topbar-new">New</a>
+                    <a href="#" class="topbar-btn btn btn-secondary" id="topbar-open">Open</a>
+                    <a href="#compile-diagram" class="topbar-btn btn btn-secondary" id="topbar-compile">Compile</a>
+                    <a href="#" class="topbar-btn btn btn-secondary" id="topbar-save">Save</a>
+                    <a href="#" class="topbar-btn btn btn-secondary" id="topbar-export">Export</a>
+                    <a href="#" class="topbar-btn btn btn-secondary" id="topbar-help">Help</a>
+                    <a href="{% url 'users:logout' %}" class="topbar-btn btn btn-secondary" id="topbar-logout">Logout</a>
+                </div> <!-- /#topbar-wrapper -->
             </div>
-            <!-- /#sidebar-wrapper -->
-            
-            <!-- Page Content -->
-            <div id="page-content-wrapper">
-                <div class="container-fluid">
-                    <div class="row">
-                        
-                        <!-- canvas wrapper -->
-                        <div id="canvas-wrapper" class="col-md-8">
-                            <!-- topbar -->
-                            <div id="topbar-wrapper">
-                                <a href="#menu-toggle" class="topbar-btn btn btn-secondary" id="menu-toggle">Menu</a>
-                                <a href="#compile-diagram" class="topbar-btn btn btn-secondary" id="compile-diagram">Compile</a>
-                                <a href="#save-diagram" class="topbar-btn btn btn-secondary" id="save-diagram">Save</a>
-                                <a href="" class="topbar-btn btn btn-secondary" id="topbar-btn-export">Export</a>
-                            </div>
-                            <!-- canvas -->
-                            <div id="canvas">
-
-<!--
-                                <div id="canvas-diagram" class="canvas-section" style="height: 300px; background-color: #C1D5E3;"></div>
-                                <div id="canvas-warehouse" class="canvas-section" style="height: 150px; background-color: #C1D5E3;"></div>
-                                <div id="canvas-palette" class="canvas-section" style="height: 200px; background-color: #C1D5E3;"></div>
--->
-                                
-                                <div id="canvas-diagram" class="canvas-section"></div>
-                                <div id="canvas-warehouse" class="canvas-section"></div>
-                                <div id="canvas-palette" class="canvas-section">
-                                
-                                </div>
-
-                            </div>
-<!--                            <div id="palette-button"><button id="demo" onclick="myFunction()">Try it</button><div>-->
-                        </div>
-                        <!-- /#canvas-wrapper -->
-                        
-                        <!-- code-wrapper -->
-                        <div id="code-wrapper" class="col-md-4">
-                            <pre><code id="generated-code" class="language-python">"""The Deep Learning [default] model, powered by LrnDeep"""</code></pre>
-                        </div>
+            <div class="row" id="wrapper">
+                <!-- Canvas -->
+                <div id="canvas-wrapper" class="col-md-7">
+                    <div id="canvas">
+                        <div id="canvas-diagram" class="canvas-section"></div>
+                        <div id="canvas-warehouse" class="canvas-section"></div>
+                        <div id="canvas-palette" class="canvas-section"></div>
                     </div>
-                </div>
+                </div> <!-- /#canvas-wrapper -->
+                <!-- Code -->
+                <div id="code-wrapper" class="col-md-5">
+                    <div id="code">
+                        <pre><code id="generated-code" class="language-python">"""The Deep Learning [default] model, powered by LrnDeep"""</code></pre>
+                    </div>
+                </div> <!-- /#code-wrapper -->
             </div>
-            <!-- /#page-content-wrapper -->
-            
         </div>
-        <!-- /#wrapper -->
     
-        <!-- Menu Toggle Script -->
+        <!-- Top Bar Button Scripts -->
         <script>
-            $("#menu-toggle").click(function(e) {
-                e.preventDefault();
-                $("#wrapper").toggleClass("toggled");
-            });
-            $("#compile-diagram").click(function(e) {
+            $("#topbar-compile").click(function(e) {
                 e.preventDefault();
                 diagramNodes = diagram.model.nodeDataArray;
                 // console.log(diagramNodes);
@@ -114,9 +81,6 @@
                 $('#generated-code').fadeIn('fast');
                 Prism.highlightElement(document.getElementById("generated-code"));
             });
-            $("#save-diagram").click(function(e) {
-                e.preventDefault();
-            });
         </script>
         
         <!-- Canvas Initialization Script -->
@@ -125,23 +89,5 @@
                 init()
             };
         </script>
-        
-        <!-- Add shape script -->
-<!--
-        <script>
-        function myFunction() {
-            var txt;
-            var person = prompt("Please enter your name:", "Harry Potter");
-            if (person == null || person == "") {
-                txt = "User cancelled the prompt.";
-            } else {
-                txt = "Hello " + person + "! How are you today?";
-            }
-            document.getElementById("demo").innerHTML = txt;
-        }
-        </script>
--->
-        
     </body>
-    
 </html>

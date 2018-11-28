@@ -1,16 +1,54 @@
+""" Tests for users app """
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+
+import urllib
 from unittest import mock
 
 from django.contrib.auth import authenticate, get_user, signals
 from django.test import (
-    SimpleTestCase, TestCase, modify_settings, override_settings,
+    LiveServerTestCase, SimpleTestCase, TestCase, modify_settings, override_settings,
 )
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.hashers import MD5PasswordHasher
 from django.contrib.auth.models import AnonymousUser, Group, Permission
-from django.test.client import Client
 from django.contrib.contenttypes.models import ContentType
-from .forms import CustomUserCreationForm
+from django.test.client import Client
 from .models import CustomUser
+
+# Create your tests here.
+
+class LoginTestCase(LiveServerTestCase):
+    """ Test case for /users/login """
+    def setUp(self):
+        self.credentials = {
+            'username': 'testuser111',
+            'password': 'Apple-1234567',
+            'email': 'testuser111@url.com'
+        }
+        self.user = CustomUser.objects.create_superuser(**self.credentials)
+        self.user.save()
+        self.driver = webdriver.Firefox()
+        super(LoginTestCase, self).setUp()
+    
+    def tearDown(self):
+        self.driver.close()
+        super(LoginTestCase, self).tearDown()
+    
+    def test_login(self):
+        driver = self.driver
+        # Opening the link we want to test
+        driver.get(urllib.parse.urljoin(self.live_server_url, "users/login"))
+        # Find the form elements
+        username = driver.find_element_by_id('inputUserame')
+        password = driver.find_element_by_id('inputPassword')
+        # Fill the form with data
+        username.send_keys(self.credentials['username'])
+        password.send_keys(self.credentials['password'])
+        # Submit form
+        driver.find_element_by_tag_name('button').click()
+        print(driver.page_source)
+
 
 class CountingMD5PasswordHasher(MD5PasswordHasher):
     """Hasher that counts how many times it computes a hash."""
