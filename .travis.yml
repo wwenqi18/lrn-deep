@@ -5,8 +5,26 @@ python:
 - 3.7-dev
 env:
 - DJANGO_VERSION=2.1.2
+before_install:
+- wget https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz
+- mkdir geckodriver
+- tar -xzf geckodriver-v0.23.0-linux64.tar.gz -C geckodriver
+- export PATH=$PATH:$PWD/geckodriver
 install:
 - pip install -r requirements.txt
+before_script:
+- "export DISPLAY=:99.0"
+- "sh -e /etc/init.d/xvfb start"
+- sleep 3 # give xvfb some time to start
+- python3 manage.py runserver  # start a Web server
+- sleep 3 # give Web server some time to bind to sockets, etc
 script:
 - python3 manage.py test
 - cd js_test; npm test; cd ..
+addons:
+  firefox: "63.0.3"
+  sauce_connect:
+    username: "CathyMouse96"
+    access_key: SLKEY
+dd:
+  secure: uhnhWpLmsklgnc7kIZJEfkFsLKlTLFF4G1zfyaDoe5otTMXLiJbpr1k292NZHqsJYN3l+6EXbdHeIWWFE6t9MOy9oA5kv8Z2Qtz9T6Wg6vJ43E0/QGv0qzcvkfaL3vY5UU/TXtOZAGHMdKR3MODsnEPv5VJs7YkRW9pNGevCPKuY70/HWwKk5ILddh5XNZ2teZflHkSC73rrwiMoFWl/JjC83eiDMAT++bQDXZbYFF/HiKYOpDXRBnvnJ7jRfDFeWh/U8Gx0Z7YiLhbP5r+JkR843Wxad+g4VlxaGVyWsnA0XTRzpWxlSWNjKhS1d1lQzHl4p1YFgi2fOdcpRJZbuhcV6Iq4pWsD1pdPNf3b91dae7ozltr64EEjOOreuFCzKrhjFLgLpxGoeeqN+Ml9iiiXV4OBR9YZfYZiZF2Ne7mpFQJz4lQ6N+kUjh7Y8RA5Ys2tqiWElQ26sBAOux/N1MXm7AuLX6WDS9myDOT4Jbfo7NAHzSaOXX6JvypB5wJKxh03GzyRqqIjIRlkxg0L18vkYkFUgkp9Sav06UqEkUodJmwJXW5oYDy3b4CEAnlM6or4qfJ8VUVBh/woCQk0kv3xiIERpO6ZmyKBxe3u1HIFzryOMdUlLJHTlW+teKdpV31shDSjNqzXsCOnKNdILc16prw+AgcJD7QIhj+rEAQ=
