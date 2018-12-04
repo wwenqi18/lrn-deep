@@ -47,7 +47,6 @@ class LoginTestCase(LiveServerTestCase):
         password.send_keys(self.credentials['password'])
         # Submit form
         driver.find_element_by_tag_name('button').click()
-        print(driver.page_source)
 
 
 class CountingMD5PasswordHasher(MD5PasswordHasher):
