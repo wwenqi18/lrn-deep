@@ -1,0 +1,122 @@
+
+
+Report
+======
+310 statements analysed.
+
+Statistics by type
+------------------
+
++---------+-------+-----------+-----------+------------+---------+
+|type     |number |old number |difference |%documented |%badname |
++=========+=======+===========+===========+============+=========+
+|module   |19     |19         |=          |NC          |NC       |
++---------+-------+-----------+-----------+------------+---------+
+|class    |12     |12         |=          |NC          |NC       |
++---------+-------+-----------+-----------+------------+---------+
+|method   |0      |0          |=          |0           |0        |
++---------+-------+-----------+-----------+------------+---------+
+|function |0      |0          |=          |0           |0        |
++---------+-------+-----------+-----------+------------+---------+
+
+
+
+External dependencies
+---------------------
+::
+
+    django 
+      \-apps (canvas.apps,users.apps)
+      \-contrib 
+      | \-admin (lrndeep.urls,users.admin)
+      | \-auth (users.admin,users.tests,users.urls,users.views)
+      | | \-admin (users.admin)
+      | | \-backends (users.tests)
+      | | \-decorators (canvas.views,users.views)
+      | | \-forms (users.forms)
+      | | \-hashers (users.tests)
+      | | \-models (users.models,users.tests)
+      | | \-signals (users.tests)
+      | \-contenttypes 
+      | | \-models (users.tests)
+      | \-staticfiles 
+      |   \-testing (canvas.tests)
+      \-core 
+      | \-wsgi (lrndeep.wsgi)
+      \-db 
+      | \-models (users.models)
+      \-forms (users.forms)
+      \-http (users.views)
+      \-shortcuts (canvas.views,users.views)
+      \-test (users.tests)
+      | \-client (users.tests)
+      \-urls (canvas.urls,canvas.views,lrndeep.urls,users.urls,users.views)
+      \-views 
+        \-generic (users.views)
+          \-base (lrndeep.urls)
+    selenium 
+      \-common 
+      | \-exceptions (canvas.tests)
+      \-webdriver (canvas.tests,users.tests)
+        \-common 
+        | \-alert (canvas.tests)
+        | \-keys (canvas.tests,users.tests)
+        \-support 
+          \-expected_conditions (canvas.tests)
+          \-ui (canvas.tests)
+    users 
+      \-models (canvas.tests)
+
+
+
+Raw metrics
+-----------
+
++----------+-------+------+---------+-----------+
+|type      |number |%     |previous |difference |
++==========+=======+======+=========+===========+
+|code      |388    |52.65 |407      |-19.00     |
++----------+-------+------+---------+-----------+
+|docstring |122    |16.55 |122      |=          |
++----------+-------+------+---------+-----------+
+|comment   |86     |11.67 |67       |+19.00     |
++----------+-------+------+---------+-----------+
+|empty     |141    |19.13 |141      |=          |
++----------+-------+------+---------+-----------+
+
+
+
+Duplication
+-----------
+
++-------------------------+------+---------+-----------+
+|                         |now   |previous |difference |
++=========================+======+=========+===========+
+|nb duplicated lines      |0     |0        |=          |
++-------------------------+------+---------+-----------+
+|percent duplicated lines |0.000 |0.000    |=          |
++-------------------------+------+---------+-----------+
+
+
+
+Messages by category
+--------------------
+
++-----------+-------+---------+-----------+
+|type       |number |previous |difference |
++===========+=======+=========+===========+
+|convention |0      |0        |=          |
++-----------+-------+---------+-----------+
+|refactor   |0      |0        |=          |
++-----------+-------+---------+-----------+
+|warning    |0      |0        |=          |
++-----------+-------+---------+-----------+
+|error      |0      |0        |=          |
++-----------+-------+---------+-----------+
+
+
+
+
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+
