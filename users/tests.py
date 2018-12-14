@@ -18,8 +18,9 @@ from .models import CustomUser
 
 # Create your tests here.
 
+
 class LoginTestCase(LiveServerTestCase):
-    """ Test case for /users/login """
+    # Test case for /users/login
     def setUp(self):
         self.credentials = {
             'username': 'testuser111',
@@ -233,6 +234,9 @@ class CustomUserTests(TestCase):
 
     def test_login(self):
         self.assertTrue(self.client.login(username='test', password='test'))
+        self.assertFalse(self.client.login(username='bug', password='test'))
+        self.assertFalse(self.client.login(username='test', password='bug'))
+        self.assertFalse(self.client.login(username='nobody', password='bug'))
 
     def test_authenticate_inactive(self):
         """

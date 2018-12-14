@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+		<!--		<script src="/js/ajax-form.js"></script>    -->
+	</head>
+
+	<body>
+
+
+		<div id="demo">
+			<h1>For back end test</h1>
+			<button type="button" id="btn" method="POST" action={% url 'canvas:test_back' %}>test</button>
+		</div>
+		
+		<script>
+			jQuery(function($) {
+				$("#btn").click(function() {
+
+					function getCookie(name) {
+						var cookieValue = null;
+						if (document.cookie && document.cookie != '') {
+							var cookies = document.cookie.split(';');
+							for (var i = 0; i < cookies.length; i++) {
+								var cookie = jQuery.trim(cookies[i]);
+								 // Does this cookie string begin with the name we want?
+								if (cookie.substring(0, name.length + 1) == (name + '=')) {
+									cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+									break;
+								}
+							}
+						}
+							return cookieValue;
+					}
+					var csrftoken = getCookie('csrftoken')
+					var csrftoken = getCookie('csrftoken');
+					function csrfSafeMethod(method) {
+						 // these HTTP methods do not require CSRF protection
+						return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+					}
+					$.ajaxSetup({
+						crossDomain: false, // obviates need for sameOrigin test
+						beforeSend: function(xhr, settings) {
+							if (!csrfSafeMethod(settings.type)) {
+								xhr.setRequestHeader("X-CSRFToken", csrftoken);
+							}
+						}
+					});
+
+					var $btn = $(this);
+					var obj = { name: "John", age: 30, city: "New York" };
+					var myJSON = JSON.stringify({ graph_name: "untitle1", data: obj });	
+					//var myJSON = JSON.stringify(obj);	
+
+					$.ajax({
+						type: $btn.attr('method'),
+						url: $btn.attr('action'),
+						data: myJSON,
+						success: function(data){
+							console.log(data);
+						}
+					});
+				});	
+			});
+		</script>
+	</body>
+</html>
