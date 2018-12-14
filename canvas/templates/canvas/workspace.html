@@ -29,7 +29,7 @@
         <script src="{% static "canvas/js/canvas.js" %}"></script>
         <script src="{% static "canvas/js/compile.js" %}"></script>
         <script src="{% static "canvas/js/prism.js" %}"></script>
-        <script src="{% static "canvas/js/save.js" %}"></script>
+		<script src="{% static "canvas/js/save.js" %}"></script>
     </head>
     
     <body>
@@ -39,9 +39,9 @@
                 <div id="topbar-wrapper" class="col-md-12">
                     <a href="{% url 'canvas:index' %}" class="topbar-logo btn btn-secondary" id="topbar-brand">LrnDeep</a>
                     <a href="#" class="topbar-btn btn btn-secondary" id="topbar-new">New</a>
-                    <a href="#" class="topbar-btn btn btn-secondary" id="topbar-open">Open</a>
+					<button type="button" class="topbar-btn btn btn-secondary" id="topbar-open" method="POST" action={% url 'canvas:graph_list' %}>Open</button>
                     <a href="#compile-diagram" class="topbar-btn btn btn-secondary" id="topbar-compile">Compile</a>
-                    <a href="#" class="topbar-btn btn btn-secondary" id="topbar-save" method="POST">Save</a>
+					<button type="button" class="topbar-btn btn btn-secondary" id="topbar-save" method="POST" action={% url 'canvas:save' %}>Save</button>
                     <a href="#" class="topbar-btn btn btn-secondary" id="topbar-export">Export</a>
                     <a href="#" class="topbar-btn btn btn-secondary" id="topbar-help">Help</a>
                     <a href="{% url 'users:logout' %}" class="topbar-btn btn btn-secondary" id="topbar-logout">Logout</a>

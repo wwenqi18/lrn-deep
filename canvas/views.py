@@ -40,20 +40,25 @@ def test(request):
 @csrf_protect
 def save(request):
     """ Save current working graph """
+
     if not request.user.is_authenticated:
         return redirect('users:signup')
 
     user = request.user.username
     graph = request.POST.get('graph_name')
-    data = request.body
+    data = request.POST.get('data')
     # request.body should be a json string
+    print('1 ' + str(user))
+    print('2 ' + str(graph))
+    print('3 ' + data)
 
     Graph.objects.update_or_create(username = user,
                                    graph_name = graph,
                                    defaults = {
                                        'json_data' : data
                                    })
-    # return 
+
+    return HttpResponse(data, content_type='application/json') 
 
     #add = Graph(username=user, graph_name=graph, json_data=data)
     #add.save()
@@ -80,7 +85,7 @@ def load_graph(request):
         return HttpResponse(ret, content_type='application/json')
 
 @csrf_protect
-def user_graph_lists(request):
+def user_graph_list(request):
     """ when user want to load graph, they need to get graph_name_list """
     # use Ajax
     if request.method == 'POST':
