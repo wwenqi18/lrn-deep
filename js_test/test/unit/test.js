@@ -3,7 +3,7 @@ var assert = chai.assert;
 
 
 describe("compile", function() {
-	
+
 	it("validate compile", function() {
 		
 		ans = '\"\"\"The Deep Learning [first_network] model, powered by LrnDeep\"\"\"\n\n' +
@@ -38,6 +38,10 @@ describe("compile", function() {
 		network = [{"name": "FC", "output_shape": 128}, {"name": "Sigmoid"}, {"name": "FC", "output_shape": 10}];
 		network_name = "first_network";
 		assert.equal(compile(network, network_name), ans);
+
+		assert.equal(compile([], "NULL-input"), '');
+		//assert.equal(comile([], ""), '');  inconsistent-length input
+
 	});
 
 });
