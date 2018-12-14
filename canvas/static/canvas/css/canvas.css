@@ -47,7 +47,7 @@
 #canvas-diagram {
     background: #ffffff;
     border-radius: 5px 5px 0 0;
-    height: 500px;
+    height: 350px;
 }
 
 /* #canvas-warehouse {
@@ -58,5 +58,5 @@
 #canvas-palette {
     background: lightslategray;
     border-radius: 0 0 5px 5px;
-    height: 200px;
+    height: 350px;
 }
