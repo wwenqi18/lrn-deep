@@ -1,32 +1,32 @@
 function init() {
-  var $ = go.GraphObject.make;
+  var goo = go.GraphObject.make;
 
   /**
    *  diagram
    */
 
   // define diagram
-  diagram = $(go.Diagram, "canvas-diagram", {
+  diagram = goo(go.Diagram, "canvas-diagram", {
     initialContentAlignment: go.Spot.Center,
     allowDrop: true, // must be true to accept drops from the palette
     allowMove: false,
     allowVerticalScroll: false,
     allowHorizontalScroll: true,
-    layout: $(go.GridLayout)
+    layout: goo(go.GridLayout)
   });
 
   // node template for fully connected layer
   var fcDiagram =
-    $(go.Node, 'Auto',
+    goo(go.Node, 'Auto',
     {
       locationSpot: go.Spot.Center
     },
-      $(go.Shape, 'Trapezoid',
+      goo(go.Shape, 'Trapezoid',
         {
           "name": "SHAPE", "stroke": "#4d6d9a", "angle": 90, "width": 120, "height": 50
         },
         new go.Binding("fill", "color")),
-      $(go.TextBlock,
+      goo(go.TextBlock,
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366", angle: 90
         },
@@ -35,16 +35,16 @@ function init() {
 
   // node template for cnn
   var cnnDiagram =
-    $(go.Node, 'Auto',
+    goo(go.Node, 'Auto',
       {
         locationSpot: go.Spot.Center
       },
-      $(go.Shape, 'Rectangle',
+      goo(go.Shape, 'Rectangle',
         {
           "name": "SHAPE", "stroke": "#4d6d9a", "width": 50, "height": 120
         },
         new go.Binding("fill", "color")),
-      $(go.TextBlock,
+      goo(go.TextBlock,
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366", angle: 90
         },
@@ -53,16 +53,16 @@ function init() {
 
   // node template for lstm
   var lstmDiagram =
-    $(go.Node, 'Auto',
+    goo(go.Node, 'Auto',
       {
         locationSpot: go.Spot.Center
       },
-      $(go.Shape, 'MultiProcess',
+      goo(go.Shape, 'MultiProcess',
         {
           "name": "SHAPE", "stroke": "#4d6d9a", "width": 50, "height": 120
         },
         new go.Binding("fill", "color")),
-      $(go.TextBlock,
+      goo(go.TextBlock,
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366", angle: 90
         },
@@ -71,16 +71,16 @@ function init() {
 
   // node template for activation
   var actDiagram =
-    $(go.Node, 'Auto',
+    goo(go.Node, 'Auto',
       {
         locationSpot: go.Spot.Center
       },
-      $(go.Shape, 'Ellipse',
+      goo(go.Shape, 'Ellipse',
         {
           "name": "SHAPE", "stroke": "#4d6d9a", "width": 50, "height": 120
         },
         new go.Binding("fill", "color")),
-      $(go.TextBlock,
+      goo(go.TextBlock,
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366", angle: 90
         },
@@ -89,16 +89,16 @@ function init() {
 
   // node template for residual
   var residualDiagram =
-    $(go.Node, 'Auto',
+    goo(go.Node, 'Auto',
       {
         locationSpot: go.Spot.Center
       },
-      $(go.Shape, 'Collate',
+      goo(go.Shape, 'Collate',
         {
-          "name": "SHAPE", "stroke": "#4d6d9a", "width": 50, "height": 120, cursor: "pointer"
+          "name": "SHAPE", "stroke": "#4d6d9a", "width": 50, "height": 120
         },
         new go.Binding("fill", "color")),
-      $(go.TextBlock,
+      goo(go.TextBlock,
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366", angle: 90
         },
@@ -107,16 +107,16 @@ function init() {
 
   // node template for residual
   var batchDiagram =
-    $(go.Node, 'Auto',
+    goo(go.Node, 'Auto',
       {
         locationSpot: go.Spot.Center
       },
-      $(go.Shape, 'PaperTape',
+      goo(go.Shape, 'PaperTape',
         {
-          "name": "SHAPE", "stroke": "#4d6d9a", angle: 90, "width": 120, "height": 50, cursor: "pointer"
+          "name": "SHAPE", "stroke": "#4d6d9a", angle: 90, "width": 120, "height": 50
         },
         new go.Binding("fill", "color")),
-      $(go.TextBlock,
+      goo(go.TextBlock,
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366"
         },
@@ -139,9 +139,9 @@ function init() {
   diagram.toolManager.draggingTool.gridSnapCellSize = new go.Size(25, 25);
 
   // diagram supplementary text
-  // diagram.add($(go.Part,
+  // diagram.add(goo(go.Part,
   //   { location: new go.Point(0, 0) },
-  //   $(go.TextBlock, "Note",
+  //   goo(go.TextBlock, "Note",
   //     { font: "bold 14px Varela Round", stroke: "black" })
   // ));
 
@@ -151,33 +151,33 @@ function init() {
    */
 
   // define palette
-  palette = $(go.Diagram, "canvas-palette", {
+  palette = goo(go.Diagram, "canvas-palette", {
     initialContentAlignment: go.Spot.Center,
     allowDrop: true, // must be true to accept drops from the palette
     allowVerticalScroll: false,
     allowHorizontalScroll: false,
     isReadOnly: true,
     "undoManager.isEnabled": true,
-    layout: $(go.GridLayout),
+    layout: goo(go.GridLayout),
     padding: new go.Margin(10, 5, 5, 5)
   });
 
   // node template for fully connected layer
   var fc = 
-    $(go.Node, 'Vertical', 
+    goo(go.Node, 'Vertical', 
       {
         locationSpot: go.Spot.Center,
         mouseEnter: mouseEnter,
         mouseLeave: mouseLeave,
         click: click
       },
-      $(go.Shape, 'Trapezoid',
+      goo(go.Shape, 'Trapezoid',
         {
           "name": "SHAPE", "stroke": "#4d6d9a", "angle": 90, "width": 120, "height": 50, cursor: "pointer"
         },
         // new go.Binding("figure", "desc"),
         new go.Binding("fill", "color")),
-      $(go.TextBlock,
+      goo(go.TextBlock,
         { 
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366" 
         },
@@ -186,19 +186,19 @@ function init() {
   
   // node template for cnn
   var cnn = 
-    $(go.Node, 'Vertical', 
+    goo(go.Node, 'Vertical', 
       {
         locationSpot: go.Spot.Center,
         mouseEnter: mouseEnter,
         mouseLeave: mouseLeave,
         click: click
       },
-      $(go.Shape, 'Rectangle',
+      goo(go.Shape, 'Rectangle',
         {
           "name": "SHAPE", "stroke": "#4d6d9a", "width": 50, "height": 120, cursor: "pointer"
         },
         new go.Binding("fill", "color")),
-      $(go.TextBlock,
+      goo(go.TextBlock,
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366"
         },
@@ -207,19 +207,19 @@ function init() {
 
   // node template for lstm
   var lstm =
-    $(go.Node, 'Vertical',
+    goo(go.Node, 'Vertical',
       {
         locationSpot: go.Spot.Center,
         mouseEnter: mouseEnter,
         mouseLeave: mouseLeave,
         click: click
       },
-      $(go.Shape, 'MultiProcess',
+      goo(go.Shape, 'MultiProcess',
         {
           "name": "SHAPE", "stroke": "#4d6d9a", "width": 50, "height": 120, cursor: "pointer"
         },
         new go.Binding("fill", "color")),
-      $(go.TextBlock,
+      goo(go.TextBlock,
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366"
         },
@@ -228,19 +228,19 @@ function init() {
 
   // node template for activation
   var act =
-    $(go.Node, 'Vertical',
+    goo(go.Node, 'Vertical',
       {
         locationSpot: go.Spot.Center,
         mouseEnter: mouseEnter,
         mouseLeave: mouseLeave,
         click: click
       },
-      $(go.Shape, 'Ellipse',
+      goo(go.Shape, 'Ellipse',
         {
           "name": "SHAPE", "stroke": "#4d6d9a", "width": 50, "height": 120, cursor: "pointer"
         },
         new go.Binding("fill", "color")),
-      $(go.TextBlock,
+      goo(go.TextBlock,
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366"
         },
@@ -249,19 +249,19 @@ function init() {
 
   // node template for residual
   var residual =
-    $(go.Node, 'Vertical',
+    goo(go.Node, 'Vertical',
       {
         locationSpot: go.Spot.Center,
         mouseEnter: mouseEnter,
         mouseLeave: mouseLeave,
         click: click
       },
-      $(go.Shape, 'Collate',
+      goo(go.Shape, 'Collate',
         {
           "name": "SHAPE", "stroke": "#4d6d9a", "width": 50, "height": 120, cursor: "pointer"
         },
         new go.Binding("fill", "color")),
-      $(go.TextBlock,
+      goo(go.TextBlock,
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366"
         },
@@ -270,19 +270,19 @@ function init() {
 
   // node template for batch norm
   var batch =
-    $(go.Node, 'Vertical',
+    goo(go.Node, 'Vertical',
       {
         locationSpot: go.Spot.Center,
         mouseEnter: mouseEnter,
         mouseLeave: mouseLeave,
         click: click
       },
-      $(go.Shape, 'PaperTape',
+      goo(go.Shape, 'PaperTape',
         {
           "name": "SHAPE", "stroke": "#4d6d9a", angle: 90, "width": 120, "height": 50, cursor: "pointer"
         },
         new go.Binding("fill", "color")),
-      $(go.TextBlock,
+      goo(go.TextBlock,
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366"
         },
@@ -300,7 +300,7 @@ function init() {
   palette.nodeTemplateMap = templateMap;
 
   // display shapes
-  palette.model = $(go.GraphLinksModel, {
+  palette.model = goo(go.GraphLinksModel, {
     nodeDataArray: [
       { key: "1", desc: "Fully Connected Layer", color: "#86b3d1", category: "fc" },
       { key: "2", desc: "CNN", color: "#86b3d1", category: "cnn" },
@@ -428,16 +428,16 @@ function init() {
 
 // enable link drawing between shapes
 // diagram.toolManager.linkingTool.temporaryLink =
-//   $(go.Link,
+//   goo(go.Link,
 //     { layerName: "Tool" },
-//     $(go.Shape,
+//     goo(go.Shape,
 //       { stroke: "#999999", strokeWidth: 2, strokeDashArray: [4, 2] })
 //   );
 
 // var tempfromnode =
-//   $(go.Node,
+//   goo(go.Node,
 //     { layerName: "Tool" }
-//     //        $(go.Shape, "RoundedRectangle",
+//     //        goo(go.Shape, "RoundedRectangle",
 //     //        { stroke: "cyan", strokeWidth: 3, fill: null,
 //     //         portId: "", width: 1, height: 1, angle: 90 })
 //   );
@@ -445,9 +445,9 @@ function init() {
 // diagram.toolManager.linkingTool.temporaryFromPort = tempfromnode.port;
 
 // var temptonode =
-//   $(go.Node,
+//   goo(go.Node,
 //     { layerName: "Tool" }
-//     //        $(go.Shape, "RoundedRectangle",
+//     //        goo(go.Shape, "RoundedRectangle",
 //     //        { stroke: "cyan", strokeWidth: 3, fill: null,
 //     //          portId: "", width: 1, height: 1 })
 //   );
@@ -456,10 +456,10 @@ function init() {
 
 // // set link appearance
 // diagram.linkTemplate =
-//   $(go.Link,
-//     $(go.Shape,
+//   goo(go.Link,
+//     goo(go.Shape,
 //       { strokeWidth: 2, stroke: "grey" }),  // the link shape
-//     $(go.Shape,   // the arrowhead
+//     goo(go.Shape,   // the arrowhead
 //       { toArrow: "Triangle", stroke: "grey", fill: "grey" })
 //   );
 

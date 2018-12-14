@@ -18,6 +18,7 @@
 
         <!-- Bootstrap core JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.8.12/go.js"></script>
+        <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
         <script src="{% static "vendor/jquery/jquery.min.js" %}"></script>
         <script src="{% static "vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
         <!-- GoJS core JavaScript -->
@@ -28,6 +29,7 @@
         <script src="{% static "canvas/js/canvas.js" %}"></script>
         <script src="{% static "canvas/js/compile.js" %}"></script>
         <script src="{% static "canvas/js/prism.js" %}"></script>
+        <script src="{% static "canvas/js/save.js" %}"></script>
     </head>
     
     <body>
@@ -39,7 +41,7 @@
                     <a href="#" class="topbar-btn btn btn-secondary" id="topbar-new">New</a>
                     <a href="#" class="topbar-btn btn btn-secondary" id="topbar-open">Open</a>
                     <a href="#compile-diagram" class="topbar-btn btn btn-secondary" id="topbar-compile">Compile</a>
-                    <a href="#" class="topbar-btn btn btn-secondary" id="topbar-save">Save</a>
+                    <a href="#" class="topbar-btn btn btn-secondary" id="topbar-save" method="POST">Save</a>
                     <a href="#" class="topbar-btn btn btn-secondary" id="topbar-export">Export</a>
                     <a href="#" class="topbar-btn btn btn-secondary" id="topbar-help">Help</a>
                     <a href="{% url 'users:logout' %}" class="topbar-btn btn btn-secondary" id="topbar-logout">Logout</a>

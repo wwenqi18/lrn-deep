@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+    {% load static %}
 		<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
 		<!--		<script src="/js/ajax-form.js"></script>    -->
 	</head>
@@ -49,8 +50,8 @@
 
 					var $btn = $(this);
 					var obj = { name: "John", age: 30, city: "New York" };
-					var myJSON = JSON.stringify({ graph_name: "untitle1", data: obj });	
-					//var myJSON = JSON.stringify(obj);	
+					var myJSON = JSON.stringify({ graph_name: "untitle1", data: obj });
+					//var myJSON = JSON.stringify(obj);
 
 					$.ajax({
 						type: $btn.attr('method'),
