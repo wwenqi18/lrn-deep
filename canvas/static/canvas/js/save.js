@@ -34,7 +34,7 @@ jQuery(function($) {
     function convertGraph() {
       // convert canvas graph into JSON
       var nodes = diagram.model.nodeDataArray;
-      var nodeData = {};
+      var nodeData = [];
       for (i = 0; i < nodes.length; i++) {
         var node = nodes[i];
         var obj = {};
@@ -42,27 +42,28 @@ jQuery(function($) {
         obj["category"] = cat;
         switch(cat) {
           case "fc":
-            obj["output"] = node["output"];
+            obj["output_size"] = node["output"];
             break;
           case "cnn":
-            obj["kernel"] = node["kernel"];
-            obj["in"] = node["in"];
-            obj["out"] = node["out"];
+            obj["kernel_size"] = [node["kernel"], node["kernel"]];
+            obj["out_channels"] = node["out"];
             break;
           case "lstm":
-            obj["state"] = node["state"];
-            obj["bi"] = node["bi"];
+            obj["state_size"] = node["state"];
+            obj["bi_directional"] = node["bi"];
             break;
           case "act":
             obj["type"] = node["type"];
             break;
           case "res":
-            obj["prev"] = node["prev"];
+            obj["prev_layer"] = node["prev"];
             break;
+          case "maxpool":
+            obj["pool_size"] = node["size"];
           default:
             break;
         }
-        nodeData[i] = obj;
+        nodeData.push(obj);
       } 
       return nodeData;
     }
@@ -75,9 +76,9 @@ jQuery(function($) {
     } else {
       var $btn = $(this);
       var nodeData = convertGraph();
-	  var myJSON = JSON.stringify({ graph_name: graphName, data: nodeData });
+	    // var myJSON = JSON.stringify({ graph_name: graphName, data: nodeData });
       var myJSON = JSON.stringify({ graph_name: graphName, data: nodeData });
-      // console.log(myJSON);
+      console.log(myJSON);
 
 	  console.log($btn.attr('action'))
 	  $.ajax({

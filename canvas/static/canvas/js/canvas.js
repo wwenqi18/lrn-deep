@@ -105,7 +105,7 @@ function init() {
         new go.Binding("text", "disp"))
     );
 
-  // node template for residual
+  // node template for batch norm
   var batchDiagram =
     goo(go.Node, 'Auto',
       {
@@ -118,7 +118,25 @@ function init() {
         new go.Binding("fill", "color")),
       goo(go.TextBlock,
         {
-          margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366"
+          margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366", angle: 90
+        },
+        new go.Binding("text", "disp"))
+    );
+
+  // node template for max pooling 2d
+  var maxpoolDiagram =
+    goo(go.Node, 'Auto',
+      {
+        locationSpot: go.Spot.Center
+      },
+      goo(go.Shape, 'SquareArrow',
+        {
+          "name": "SHAPE", "stroke": "#4d6d9a", "width": 50, "height": 120
+        },
+        new go.Binding("fill", "color")),
+      goo(go.TextBlock,
+        {
+          margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366", angle: 90
         },
         new go.Binding("text", "disp"))
     );
@@ -131,6 +149,7 @@ function init() {
   templateMapDiagram.add("act", actDiagram);
   templateMapDiagram.add("res", residualDiagram);
   templateMapDiagram.add("batch", batchDiagram);
+  templateMapDiagram.add("maxpool", maxpoolDiagram);
   diagram.nodeTemplateMap = templateMapDiagram;
 
   // set diagram grid
@@ -289,6 +308,28 @@ function init() {
         new go.Binding("text", "desc"))
     );
 
+
+  // node template for max pooling 2d
+  var maxpool =
+    goo(go.Node, 'Vertical',
+      {
+        locationSpot: go.Spot.Center,
+        mouseEnter: mouseEnter,
+        mouseLeave: mouseLeave,
+        click: click
+      },
+      goo(go.Shape, 'SquareArrow',
+        {
+          "name": "SHAPE", "stroke": "#4d6d9a", "width": 50, "height": 120, cursor: "pointer"
+        },
+        new go.Binding("fill", "color")),
+      goo(go.TextBlock,
+        {
+          margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366"
+        },
+        new go.Binding("text", "desc"))
+    );
+
   // define template map
   var templateMap = new go.Map("string", go.Node);
   templateMap.add("fc", fc);
@@ -297,6 +338,7 @@ function init() {
   templateMap.add("act", act);
   templateMap.add("res", residual);
   templateMap.add("batch", batch);
+  templateMap.add("maxpool", maxpool);
   palette.nodeTemplateMap = templateMap;
 
   // display shapes
@@ -308,6 +350,7 @@ function init() {
       { key: "4", desc: "Activation", color: "#86b3d1", category: "act" },
       { key: "5", desc: "Residual", color: "#86b3d1", category: "res" },
       { key: "6", desc: "Batch Norm", color: "#86b3d1", category: "batch" },
+      { key: "7", desc: "Max Pooling 2D", color: "#86b3d1", category: "maxpool" },
     ]
   });
 
@@ -348,14 +391,14 @@ function init() {
         break;
       case "cnn":
         var kernelSize = prompt("Kernel size: ", "3");
-        var inChannel = prompt("Input channels: ", 3);
+        // var inChannel = prompt("Input channels: ", 3);
         var outChannel = prompt("Output channels: ", 3);
-        if (kernelSize == null || inChannel == null || outChannel == null) {
+        if (kernelSize == null || outChannel == null) {
           alert("Please enter a valid value!");  
         } else {
           diagram.model.addNodeData(
-            { key: id++, kernel: "" + kernelSize, in: "" + inChannel, out: "" + outChannel, 
-              color: "#86b3d1", disp: inChannel + ", " + outChannel, category: cat }
+            { key: id++, kernel: "" + kernelSize, out: "" + outChannel, 
+              color: "#86b3d1", disp: outChannel, category: cat }
           );
         }
         break;
@@ -419,6 +462,31 @@ function init() {
             key: id++, color: "#86b3d1", category: cat
           });
         break;
+      case "maxpool":
+        var arr = diagram.model.nodeDataArray;
+        if (arr.length > 0) {
+          var node = arr[arr.length - 1];
+          console.log(arr);
+          console.log(node);
+          if (node["category"] !== "cnn") {
+            alert("Error: Max Pooling 2D should always follow a CNN layer!");
+          }
+          else {
+            var size = prompt("Pool size: ", "2");
+            if (size == null || size == "") {
+              alert("Please enter a valid value!");  
+            } else {
+              diagram.model.addNodeData(
+                {
+                  key: id++, pool: "" + size,
+                  color: "#86b3d1", disp: size, category: cat
+                }
+              );
+            }
+          }
+        } else {
+          alert("Error: Max Pooling 2D should always follow a CNN layer!");  
+        }
       default: 
         break;
     };
