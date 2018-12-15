@@ -6,7 +6,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.alert import Alert
-from selenium.common.exceptions import NoAlertPresentException
+from selenium.common.exceptions import NoAlertPresentException, TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ExpectedConditions
 
@@ -33,37 +33,22 @@ class DragFromPaletteTestCase(StaticLiveServerTestCase):
         # Opening the link we want to test
         driver.get(urllib.parse.urljoin(self.live_server_url, "canvas/workspace/"))
         # Utilize the Robot class to simulate input in GoJS
-        # scripts = []
-        # scripts.append("var robot = new Robot(palette); ")
-        # scripts.append("fcl = palette.findNodeForKey(\"add\"); ")
-        # scripts.append("loc = fcl.location; ")
-        # scripts.append("robot.mouseDown(loc.x + 10, loc.y + 10, 0, { }); ")
-        # scripts.append("robot.mouseUp(loc.x + 10, loc.y + 10, 100, { }); ")
-        # sleep(2) # To make sure the object is in place
-        # driver.execute_script("".join(scripts))
+        scripts = []
+        scripts.append("var robot = new Robot(palette); ")
+        scripts.append("fcl = palette.findNodeForKey(\"add\"); ")
+        scripts.append("loc = fcl.location; ")
+        scripts.append("robot.mouseDown(loc.x + 10, loc.y + 10, 0, { }); ")
+        scripts.append("robot.mouseUp(loc.x + 10, loc.y + 10, 100, { }); ")
+        sleep(2) # To make sure the object is in place
+        driver.execute_script("".join(scripts))
         # Send input and output dimensions to the alert
-        # try:
-        #     input_prompt = Alert(driver)
-        #     input_prompt.accept()
-        #     driver.execute_script('alert("Clearing out past dialogs.")')
-        #     driver.switch_to.alert.accept()
-        #     wait = WebDriverWait(driver, 10)
-        #     wait.until(ExpectedConditions.alert_is_present())
-        #     output_prompt = Alert(driver)
-        #     output_prompt.accept()
-            # driver.switch_to.default_content()
-            # sleep(5)
-            # driver.switch_to.alert
-            # driver.accept()
-            # driver.switch_to.default_content()
-            # sleep(5)
-            # alert.accept()
-            # alert = driver.switch_to.alert
-            # sleep(6)
-            # alert.send_keys("200") # send output dimension
-            # alert.accept()
-        # except NoAlertPresentException:
-        #     print("Huh?")
+        wait = WebDriverWait(driver, 10)
+        try:
+            while wait.until(ExpectedConditions.alert_is_present()):
+                sleep(2)
+                driver.switch_to.alert.accept()
+        except TimeoutException:
+            pass
         sleep(5)
 
 def selenium_login(driver, live_server_url):

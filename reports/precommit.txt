@@ -2,7 +2,7 @@
 
 Report
 ======
-310 statements analysed.
+325 statements analysed.
 
 Statistics by type
 ------------------
@@ -25,6 +25,8 @@ External dependencies
 ---------------------
 ::
 
+    canvas 
+      \-views (canvas.urls)
     django 
       \-apps (canvas.apps,users.apps)
       \-contrib 
@@ -65,7 +67,8 @@ External dependencies
           \-expected_conditions (canvas.tests)
           \-ui (canvas.tests)
     users 
-      \-models (canvas.tests)
+      \-forms (users.admin,users.views)
+      \-models (canvas.tests,users.admin,users.forms,users.tests)
 
 
 
@@ -75,13 +78,13 @@ Raw metrics
 +----------+-------+------+---------+-----------+
 |type      |number |%     |previous |difference |
 +==========+=======+======+=========+===========+
-|code      |388    |52.65 |407      |-19.00     |
+|code      |403    |55.82 |388      |+15.00     |
 +----------+-------+------+---------+-----------+
-|docstring |122    |16.55 |122      |=          |
+|docstring |122    |16.90 |122      |=          |
 +----------+-------+------+---------+-----------+
-|comment   |86     |11.67 |67       |+19.00     |
+|comment   |56     |7.76  |86       |-30.00     |
 +----------+-------+------+---------+-----------+
-|empty     |141    |19.13 |141      |=          |
+|empty     |141    |19.53 |141      |=          |
 +----------+-------+------+---------+-----------+
 
 
