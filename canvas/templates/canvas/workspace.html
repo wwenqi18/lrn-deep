@@ -29,7 +29,7 @@
         <script src="{% static "canvas/js/canvas.js" %}"></script>
         <script src="{% static "canvas/js/compile.js" %}"></script>
         <script src="{% static "canvas/js/prism.js" %}"></script>
-		    <script src="{% static "canvas/js/save.js" %}"></script>
+		<script src="{% static "canvas/js/save.js" %}"></script>
         <script src="{% static "canvas/js/open.js" %}"></script>
         <script src="{% static "canvas/js/export.js" %}"></script>
     </head>
@@ -75,9 +75,47 @@
                 // console.log(diagramNodes);
                 var network = [];
                 for (i = 0; i < diagramNodes.length; i++) {
-                    network.push({"name": "FC", "output_shape": diagramNodes[i]["output"]});
+                    node_name = diagramNodes[i]["category"];
+                    if (node_name == "cnn") {
+                        network.push({
+                            "name": "CNN", 
+                            "kernel_size": [diagramNodes[i]["kernel_size"], diagramNodes[i]["kernel_size"]], 
+                            "out_channels": diagramNodes[i]["out_channels"]
+                        });
+                    } else if (node_name == "maxpool") {
+                        network.push({
+                            "name": "MaxPooling2D", 
+                            "pool_size": [diagramNodes[i]["pool_size"], diagramNodes[i]["pool_size"]]
+                        });
+                    } else if (node_name == "lstm") {
+                        network.push({
+                            "name": "LSTM", 
+                            "state_size": diagramNodes[i]["state_size"],
+                            "bi-directional": diagramNodes[i]["bi-directional"]
+                        });
+                    } else if (node_name == "fc") {
+                        network.push({
+                            "name": "FC", 
+                            "output_shape": diagramNodes[i]["output"]
+                        });
+                    } else if (node_name == "res") {
+                        network.push({
+                            "name": "residual", 
+                            "prev_layer": diagramNodes[i]["prev_layer"]
+                    });
+                    } else if (node_name == "batch") {
+                        network.push({
+                            "name": "batch_norm"
+                        });
+                    } else if (node_name == "act") {
+                        network.push({
+                            "name": "activation", 
+                            "type": diagramNodes[i]["type"]
+                        });
+                    }
                 }
-                var network_name = "default"
+                // console.log(network);
+                var network_name = "default";
                 generatedCode = compile(network, network_name);
                 // Allow animation for generating code
                 $('#generated-code').fadeOut('fast');
