@@ -55,7 +55,7 @@ jQuery(function($) {
     } else {
       var $btn = $(this);
       var nodeData = convertGraph();
-      var myJSON = JSON.stringify({ graph_name: graphName, data: nodeData });
+      var myJSON = JSON.stringify({ graph_name: graphName, data: JSON.stringify(nodeData) });
 
       console.log($btn.attr('action'))
       $.ajax({
