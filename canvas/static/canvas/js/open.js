@@ -40,18 +40,22 @@ jQuery(function ($) {
         for (let name of names) {
           str = str + name + "\n";
         }
-        str = str + "Please enter the canvas you want to open: "
+        str = str + "Please enter the name of the canvas you want to open: "
       }
       var name = prompt(str);
       if (name != null && name != "" && names.includes(name)) {
-        alert("Your canvas " + name + " is opened!");  
+        //alert("Your canvas " + name + " is opened!");  
+		//console.log(name)
       } else {
+		name = null
         alert("Please enter a valid value!");
       }
+	  return name;
     }
 
     // render graph with graph data
-    function renderGraph(data) {
+    function renderGraph(myJSON) {
+      var data = JSON.parse(myJSON["data"]);
       diagram.clear();
       for (let node of data) {
         node["color"] = "#86b3d1";
@@ -62,23 +66,27 @@ jQuery(function ($) {
     // test getGraphName() and renderGraph()
     // var graphNameList = ["1", "2", "3"];
     // getGraphName(graphNameList);
-    // var data = [{ "key": 0, "output_size": "100", "disp": "100", "category": "fc" }, { "key": 1, "output_size": "100", "disp": "100", "category": "fc" }, { "key": 2, "type": "sigmoid", "disp": "sigmoid", "category": "act" }];
-    // renderGraph(data);
+    // var myJSON = { "graph_name": "1", "data": [{ "key": 0, "category": "batch" }, { "key": 1, "category": "batch" }, { "key": 2, "category": "batch" }] };
+    // renderGraph(myJSON);
 
     var $btn = $(this);
 
     // request for list of graph names
     $.ajax({
       type: $btn.attr('method'),
-      url: $btn.attr('action'),
+      url: $btn.attr('action_list'),
       // data: { 'graph_name': graphName, 'data': myJSON },
       // traditional: true,
       success: function (ret) {
-        console.log(ret);
+        // console.log(ret);
         var name = getGraphName(ret);
-        ajaxCall2(name);
+        //console.log(name)
+            
+        if (name != null && name != "") {
+          ajaxCall2(name);
+        }
       },
-      error: function (xhr, ajaxOptions, thrownError) {
+      error: function(xhr, ajaxOptions, thrownError) {
         alert(thrownError);
       }
     });
@@ -87,10 +95,11 @@ jQuery(function ($) {
     function ajaxCall2(name) {
       $.ajax({
         type: $btn.attr('method'),
-        url: $btn.attr('action'),
-        graphName: name,
+        url: $btn.attr('action_graph'),
+        data: { 'graph_name': name },
         success: function (ret) {
           renderGraph(ret);
+          alert("Your canvas " + name + " will be opened!");  
         },
         error: function (xhr, ajaxOptions, thrownError) {
           alert(thrownError);

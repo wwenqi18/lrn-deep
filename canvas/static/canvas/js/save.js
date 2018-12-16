@@ -38,7 +38,7 @@ jQuery(function($) {
       for (let node of nodes) {
         var obj = {};
         for (let attr in node) {
-          if (attr !== "color" && attr !== "__gohashid") {
+          if (attr !== "color" && attr != "__gohashid") {
             obj[attr] = node[attr];
           }
         }
@@ -55,24 +55,22 @@ jQuery(function($) {
     } else {
       var $btn = $(this);
       var nodeData = convertGraph();
-	    // var myJSON = JSON.stringify({ graph_name: graphName, data: nodeData });
-      var myJSON = JSON.stringify({ graph_name: graphName, data: nodeData });
-      console.log(myJSON);
+      var myJSON = JSON.stringify({ graph_name: graphName, data: JSON.stringify(nodeData) });
 
-	  console.log($btn.attr('action'))
-	  $.ajax({
-		type: $btn.attr('method'),
-		url: $btn.attr('action'),
-		data: { 'graph_name' : graphName, 'data' : myJSON },
-		traditional: true,
-		success: function(ret) {
-		  console.log(ret);
-		  alert("Your workspace " + graphName + " has been saved!");
-		},
-		error: function(xhr, ajaxOptions, thrownError) {
-			alert(thrownError);
-		}
-	  });
+      console.log($btn.attr('action'))
+      $.ajax({
+        type: $btn.attr('method'),
+        url: $btn.attr('action'),
+        data: { 'graph_name' : graphName, 'data' : myJSON },
+        traditional: true,
+        success: function(ret) {
+          console.log(ret);
+          alert("Your workspace " + graphName + " has been saved!");
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+          alert(thrownError);
+        }
+      });
     }
   });
 });

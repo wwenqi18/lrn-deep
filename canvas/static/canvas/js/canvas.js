@@ -7,19 +7,26 @@ function init() {
 
   // define diagram
   diagram = goo(go.Diagram, "canvas-diagram", {
-    initialContentAlignment: go.Spot.Center,
+    initialContentAlignment: go.Spot.MiddleLeft,
     allowDrop: true, // must be true to accept drops from the palette
     allowMove: false,
-    allowVerticalScroll: false,
+    allowVerticalScroll: true,
     allowHorizontalScroll: true,
     layout: goo(go.GridLayout)
   });
+
+  // diagram.model.nodeKeyProperty = function (nodeData, id) {
+  //   id && (nodeData.id = id);// enabling it will fix the issue.
+  //   return nodeData.id;
+  // };
 
   // node template for fully connected layer
   var fcDiagram =
     goo(go.Node, 'Auto',
     {
-      locationSpot: go.Spot.Center
+      locationSpot: go.Spot.Center,
+      mouseEnter: mouseEnter,
+      mouseLeave: mouseLeave,
     },
       goo(go.Shape, 'Trapezoid',
         {
@@ -30,14 +37,24 @@ function init() {
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366", angle: 90
         },
-        new go.Binding("text", "disp"))
+        new go.Binding("text", "disp")),
+      {
+        toolTip:  // define a tooltip for each node that displays the color as text
+          goo(go.Adornment, "Auto",
+            goo(go.Shape, { fill: "white" }),
+            goo(go.TextBlock, { margin: 4 },
+              new go.Binding("text", "tooltip"))
+          )  // end of Adornment
+      }
     );
 
   // node template for cnn
   var cnnDiagram =
     goo(go.Node, 'Auto',
       {
-        locationSpot: go.Spot.Center
+        locationSpot: go.Spot.Center,
+        mouseEnter: mouseEnter,
+        mouseLeave: mouseLeave,
       },
       goo(go.Shape, 'Rectangle',
         {
@@ -48,14 +65,24 @@ function init() {
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366", angle: 90
         },
-        new go.Binding("text", "disp"))
+        new go.Binding("text", "disp")),
+      {
+        toolTip:  // define a tooltip for each node that displays the color as text
+          goo(go.Adornment, "Auto",
+            goo(go.Shape, { fill: "white" }),
+            goo(go.TextBlock, { margin: 4 },
+              new go.Binding("text", "tooltip"))
+          )  // end of Adornment
+      }
     );
 
   // node template for lstm
   var lstmDiagram =
     goo(go.Node, 'Auto',
       {
-        locationSpot: go.Spot.Center
+        locationSpot: go.Spot.Center,
+        mouseEnter: mouseEnter,
+        mouseLeave: mouseLeave,
       },
       goo(go.Shape, 'MultiProcess',
         {
@@ -66,14 +93,24 @@ function init() {
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366", angle: 90
         },
-        new go.Binding("text", "disp"))
+        new go.Binding("text", "disp")),
+      {
+        toolTip:  // define a tooltip for each node that displays the color as text
+          goo(go.Adornment, "Auto",
+            goo(go.Shape, { fill: "white" }),
+            goo(go.TextBlock, { margin: 4 },
+              new go.Binding("text", "tooltip"))
+          )  // end of Adornment
+      }
     );
 
   // node template for activation
   var actDiagram =
     goo(go.Node, 'Auto',
       {
-        locationSpot: go.Spot.Center
+        locationSpot: go.Spot.Center,
+        mouseEnter: mouseEnter,
+        mouseLeave: mouseLeave,
       },
       goo(go.Shape, 'Ellipse',
         {
@@ -84,14 +121,24 @@ function init() {
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366", angle: 90
         },
-        new go.Binding("text", "disp"))
+        new go.Binding("text", "disp")),
+      {
+        toolTip:  // define a tooltip for each node that displays the color as text
+          goo(go.Adornment, "Auto",
+            goo(go.Shape, { fill: "white" }),
+            goo(go.TextBlock, { margin: 4 },
+              new go.Binding("text", "tooltip"))
+          )  // end of Adornment
+      }
     );
 
   // node template for residual
   var residualDiagram =
     goo(go.Node, 'Auto',
       {
-        locationSpot: go.Spot.Center
+        locationSpot: go.Spot.Center,
+        mouseEnter: mouseEnter,
+        mouseLeave: mouseLeave,
       },
       goo(go.Shape, 'Collate',
         {
@@ -102,14 +149,24 @@ function init() {
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366", angle: 90
         },
-        new go.Binding("text", "disp"))
+        new go.Binding("text", "disp")),
+      {
+        toolTip:  // define a tooltip for each node that displays the color as text
+          goo(go.Adornment, "Auto",
+            goo(go.Shape, { fill: "white" }),
+            goo(go.TextBlock, { margin: 4 },
+              new go.Binding("text", "tooltip"))
+          )  // end of Adornment
+      }
     );
 
   // node template for batch norm
   var batchDiagram =
     goo(go.Node, 'Auto',
       {
-        locationSpot: go.Spot.Center
+        locationSpot: go.Spot.Center,
+        mouseEnter: mouseEnter,
+        mouseLeave: mouseLeave,
       },
       goo(go.Shape, 'PaperTape',
         {
@@ -120,14 +177,24 @@ function init() {
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366", angle: 90
         },
-        new go.Binding("text", "disp"))
+        new go.Binding("text", "disp")),
+      {
+        toolTip:  // define a tooltip for each node that displays the color as text
+          goo(go.Adornment, "Auto",
+            goo(go.Shape, { fill: "white" }),
+            goo(go.TextBlock, { margin: 4 },
+              new go.Binding("text", "tooltip"))
+          )  // end of Adornment
+      }
     );
 
   // node template for max pooling 2d
   var maxpoolDiagram =
     goo(go.Node, 'Auto',
       {
-        locationSpot: go.Spot.Center
+        locationSpot: go.Spot.Center,
+        mouseEnter: mouseEnter,
+        mouseLeave: mouseLeave,
       },
       goo(go.Shape, 'SquareArrow',
         {
@@ -138,7 +205,15 @@ function init() {
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366", angle: 90
         },
-        new go.Binding("text", "disp"))
+        new go.Binding("text", "disp")),
+      {
+        toolTip:  // define a tooltip for each node that displays the color as text
+          goo(go.Adornment, "Auto",
+            goo(go.Shape, { fill: "white" }),
+            goo(go.TextBlock, { margin: 4 },
+              new go.Binding("text", "tooltip"))
+          )  // end of Adornment
+      }
     );
 
   // define template map
@@ -344,7 +419,7 @@ function init() {
   // display shapes
   palette.model = goo(go.GraphLinksModel, {
     nodeDataArray: [
-      { key: "1", desc: "Fully Connected Layer", color: "#86b3d1", category: "fc" },
+      { key: "1", desc: "Fully Connected", color: "#86b3d1", category: "fc" },
       { key: "2", desc: "CNN", color: "#86b3d1", category: "cnn" },
       { key: "3", desc: "LSTM", color: "#86b3d1", category: "lstm" },
       { key: "4", desc: "Activation", color: "#86b3d1", category: "act" },
@@ -379,16 +454,21 @@ function init() {
   function click(e, obj) {
     var cat = obj.data.category;
     switch(cat) {
+
+      // fully connected layer
       case "fc":
         var output = prompt("Output size: ", "100");
         if (output == null) {
           alert("Please enter a valid value!");
         } else {
           diagram.model.addNodeData(
-            { key: id++, output_size: "" + output, disp: output, color: "#86b3d1", category: cat }
+            { key: id++, output_size: "" + output, disp: output, color: "#86b3d1", category: cat,
+              tooltip: "Fully Connected\n" + "output size: " + output }
           );
         }
         break;
+
+      // CNN
       case "cnn":
         var kernelSize = prompt("Kernel size: ", "3");
         // var inChannel = prompt("Input channels: ", 3);
@@ -398,10 +478,13 @@ function init() {
         } else {
           diagram.model.addNodeData(
             { key: id++, kernel_size: "" + kernelSize, out_channels: "" + outChannel, 
-              color: "#86b3d1", disp: outChannel, category: cat }
+              color: "#86b3d1", disp: outChannel, category: cat, 
+              tooltip: "CNN\n" + "kernel size: [" + kernelSize + ", " + kernelSize + "]\n output channels: " + outChannel }
           );
         }
         break;
+
+      // LSTM
       case "lstm":
         // check if it's the first layer
         if (diagram.model.nodeDataArray.length != 0) {
@@ -416,12 +499,15 @@ function init() {
             diagram.model.addNodeData(
               {
                 key: id++, state_size: "" + stateSize, bi_directional: "" + biDirectional,
-                color: "#86b3d1", disp: stateSize, category: cat
+                color: "#86b3d1", disp: stateSize, category: cat,
+                tooltip: "LSTM\n" + "state size: " + stateSize + "\n bi-directional: " + biDirectional
               }
             ); 
           }
         }
         break;
+      
+      // Activation
       case "act":
         if (diagram.model.nodeDataArray.length == 0) {
           alert("Error: Activation cannot be the first layer of the network!")  
@@ -433,12 +519,15 @@ function init() {
             diagram.model.addNodeData(
               {
                 key: id++, type: "" + type,
-                color: "#86b3d1", disp: type, category: cat
+                color: "#86b3d1", disp: type, category: cat,
+                tooltip: "Activation\n" + "type: " + type
               }
             );
           }
         }
         break;
+      
+      // Residual
       case "res":
         if (diagram.model.nodeDataArray.length == 0) {
           alert("Error: Residual cannot be the first layer of the network!")
@@ -450,18 +539,24 @@ function init() {
             diagram.model.addNodeData(
               {
                 key: id++, prev_layer: "" + prev,
-                color: "#86b3d1", disp: prev, category: cat
+                color: "#86b3d1", disp: prev, category: cat,
+                tooltip: "Residual\n" + "previous layer: " + prev
               }
             );
           }
         }
         break; 
+      
+      // Batch Norm
       case "batch":
         diagram.model.addNodeData(
           {
-            key: id++, color: "#86b3d1", category: cat
+            key: id++, color: "#86b3d1", category: cat,
+            tooltip: "Batch Norm"
           });
         break;
+      
+      // Max Pooling 2D
       case "maxpool":
         var arr = diagram.model.nodeDataArray;
         if (arr.length > 0) {
@@ -479,7 +574,8 @@ function init() {
               diagram.model.addNodeData(
                 {
                   key: id++, pool_size: "" + size,
-                  color: "#86b3d1", disp: size, category: cat
+                  color: "#86b3d1", disp: size, category: cat,
+                  tooltip: "Max Pooling 2D\n" + "pool size: [" + size + ", " + size + "]"
                 }
               );
             }
@@ -487,6 +583,7 @@ function init() {
         } else {
           alert("Error: Max Pooling 2D should always follow a CNN layer!");  
         }
+
       default: 
         break;
     };
