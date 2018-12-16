@@ -40,7 +40,7 @@ jQuery(function ($) {
         for (let name of names) {
           str = str + name + "\n";
         }
-        str = str + "Please enter the canvas you want to open: "
+        str = str + "Please enter the name of the canvas you want to open: "
       }
       var name = prompt(str);
       if (name != null && name != "" && names.includes(name)) {
@@ -55,9 +55,7 @@ jQuery(function ($) {
 
     // render graph with graph data
     function renderGraph(myJSON) {
-      var data = myJSON["data"];
-      console.log(typeof(data));
-      console.log(data);
+      var data = JSON.parse(myJSON["data"]);
       diagram.clear();
       for (let node of data) {
         node["color"] = "#86b3d1";
@@ -80,14 +78,15 @@ jQuery(function ($) {
       // data: { 'graph_name': graphName, 'data': myJSON },
       // traditional: true,
       success: function (ret) {
-        console.log(ret);
+        // console.log(ret);
         var name = getGraphName(ret);
-		//console.log(name)
-        
-		if (name != null && name != "") {
-		  ajaxCall2(name);
+        //console.log(name)
+            
+        if (name != null && name != "") {
+          ajaxCall2(name);
+        }
       },
-      error: function (xhr, ajaxOptions, thrownError) {
+      error: function(xhr, ajaxOptions, thrownError) {
         alert(thrownError);
       }
     });
@@ -100,7 +99,7 @@ jQuery(function ($) {
         data: { 'graph_name': name },
         success: function (ret) {
           renderGraph(ret);
-          alert("Your canvas " + name + " is opened!");  
+          alert("Your canvas " + name + " will be opened!");  
         },
         error: function (xhr, ajaxOptions, thrownError) {
           alert(thrownError);

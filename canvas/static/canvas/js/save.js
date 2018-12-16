@@ -38,7 +38,7 @@ jQuery(function($) {
       for (let node of nodes) {
         var obj = {};
         for (let attr in node) {
-          if (attr !== "color" && attr !== "__gohashid") {
+          if (attr !== "color" && attr != "__gohashid") {
             obj[attr] = node[attr];
           }
         }

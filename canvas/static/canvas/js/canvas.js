@@ -15,6 +15,11 @@ function init() {
     layout: goo(go.GridLayout)
   });
 
+  // diagram.model.nodeKeyProperty = function (nodeData, id) {
+  //   id && (nodeData.id = id);// enabling it will fix the issue.
+  //   return nodeData.id;
+  // };
+
   // node template for fully connected layer
   var fcDiagram =
     goo(go.Node, 'Auto',
