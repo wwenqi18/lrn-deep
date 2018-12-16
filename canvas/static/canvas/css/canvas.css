@@ -1,12 +1,12 @@
 #topbar-wrapper {
     background: lightslategray;
-    padding-left: 15px;
+    /* padding-left: 15px; */
 }
 
 #topbar-wrapper a {
     font-family: 'Varela Round';
     font-size: 18px;
-    margin-right: 10px;
+    margin: 0 0 !important;
     width: 100px;
     height: 36px;
     line-height: 22px;
@@ -16,25 +16,35 @@
 .topbar-logo {
     background: lightslategray;
     border-color: lightslategray;
+    width: 120px;
+    height: 36px;
     transition: font-size 0.5s;
 }
 
 .topbar-logo:hover {
     background: lightslategray;
     border-color: lightslategray;
-    font-size: 18pt !important;
+    font-size: 20px !important;
 }
 
 .topbar-btn {
     background: lightslategray;
     border-color: lightslategray;
     border-radius: 0%;
+    font-family: 'Varela Round';
+    font-size: 18px;
+    width: 100px;
+    height: 36px;
+    line-height: 22px;
+    letter-spacing: 1px;
     transition: background 0.5s, border-color 0.5s, font-size 0.5s;
 }
 
 .topbar-btn:hover {
     background: #4d6d9a;
     border-color: #4d6d9a;
+    width: 100px;
+    height: 36px;
     font-size: 14pt !important;
 }
 
@@ -47,7 +57,7 @@
 #canvas-diagram {
     background: #ffffff;
     border-radius: 5px 5px 0 0;
-    height: 500px;
+    height: 350px;
 }
 
 /* #canvas-warehouse {
@@ -58,5 +68,5 @@
 #canvas-palette {
     background: lightslategray;
     border-radius: 0 0 5px 5px;
-    height: 200px;
+    height: 350px;
 }
