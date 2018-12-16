@@ -93,6 +93,9 @@ def user_graph_list(request):
         user = request.user.username
         # SQL lookup
         graph_list = Graph.objects.filter(username=user).values_list('graph_name', flat=True)
-        ret = json.dumps({'graph_name_list' : graph_list,})
+        ret = []
+        for name in graph_list:
+           ret.append(name) 
+        ret = json.dumps(ret)
 
         return HttpResponse(ret, content_type='application/json')

@@ -44,15 +44,18 @@ jQuery(function ($) {
       }
       var name = prompt(str);
       if (name != null && name != "" && names.includes(name)) {
-        alert("Your canvas " + name + " is opened!");  
+        //alert("Your canvas " + name + " is opened!");  
+		console.log(name)
       } else {
         alert("Please enter a valid value!");
       }
+	  return name;
     }
 
     // render graph with graph data
     function renderGraph(myJSON) {
       var data = myJSON["data"];
+      console.log(typeof(data));
       console.log(data);
       diagram.clear();
       for (let node of data) {
@@ -72,12 +75,13 @@ jQuery(function ($) {
     // request for list of graph names
     $.ajax({
       type: $btn.attr('method'),
-      url: $btn.attr('action'),
+      url: $btn.attr('action_list'),
       // data: { 'graph_name': graphName, 'data': myJSON },
       // traditional: true,
       success: function (ret) {
         console.log(ret);
         var name = getGraphName(ret);
+		console.log(name)
         ajaxCall2(name);
       },
       error: function (xhr, ajaxOptions, thrownError) {
@@ -89,8 +93,8 @@ jQuery(function ($) {
     function ajaxCall2(name) {
       $.ajax({
         type: $btn.attr('method'),
-        url: $btn.attr('action'),
-        graphName: name,
+        url: $btn.attr('action_graph'),
+        data: { 'graph_name': name },
         success: function (ret) {
           renderGraph(ret);
         },
