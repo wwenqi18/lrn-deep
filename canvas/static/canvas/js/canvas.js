@@ -385,7 +385,7 @@ function init() {
           alert("Please enter a valid value!");
         } else {
           diagram.model.addNodeData(
-            { key: id++, output: "" + output, disp: output, color: "#86b3d1", category: cat }
+            { key: id++, output_size: "" + output, disp: output, color: "#86b3d1", category: cat }
           );
         }
         break;
@@ -397,7 +397,7 @@ function init() {
           alert("Please enter a valid value!");  
         } else {
           diagram.model.addNodeData(
-            { key: id++, kernel: "" + kernelSize, out: "" + outChannel, 
+            { key: id++, kernel_size: "" + kernelSize, out_channels: "" + outChannel, 
               color: "#86b3d1", disp: outChannel, category: cat }
           );
         }
@@ -415,7 +415,7 @@ function init() {
             biDirectional = "yes" ? true : false;
             diagram.model.addNodeData(
               {
-                key: id++, state: "" + stateSize, bi: "" + biDirectional,
+                key: id++, state_size: "" + stateSize, bi_directional: "" + biDirectional,
                 color: "#86b3d1", disp: stateSize, category: cat
               }
             ); 
@@ -449,7 +449,7 @@ function init() {
           } else {
             diagram.model.addNodeData(
               {
-                key: id++, prev: "" + prev,
+                key: id++, prev_layer: "" + prev,
                 color: "#86b3d1", disp: prev, category: cat
               }
             );
@@ -478,7 +478,7 @@ function init() {
             } else {
               diagram.model.addNodeData(
                 {
-                  key: id++, pool: "" + size,
+                  key: id++, pool_size: "" + size,
                   color: "#86b3d1", disp: size, category: cat
                 }
               );

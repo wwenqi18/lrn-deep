@@ -31,49 +31,72 @@ jQuery(function ($) {
       }
     });
 
+    // prompt user to select a graph name
+    function getGraphName(names) {
+      if (names == null || names.length == 0) {
+        alert("You have no saved canvases!")
+      } else {
+        var str = "Your canvases: \n";
+        for (let name of names) {
+          str = str + name + "\n";
+        }
+        str = str + "Please enter the canvas you want to open: "
+      }
+      var name = prompt(str);
+      if (name != null && name != "" && names.includes(name)) {
+        alert("Your canvas " + name + " is opened!");  
+      } else {
+        alert("Please enter a valid value!");
+      }
+    }
+
+    // render graph with graph data
+    function renderGraph(data) {
+      diagram.clear();
+      for (let node of data) {
+        node["color"] = "#86b3d1";
+        diagram.model.addNodeData(node);
+      }
+    }
+
+    // test getGraphName() and renderGraph()
+    // var graphNameList = ["1", "2", "3"];
+    // getGraphName(graphNameList);
+    // var data = [{ "key": 0, "output_size": "100", "disp": "100", "category": "fc" }, { "key": 1, "output_size": "100", "disp": "100", "category": "fc" }, { "key": 2, "type": "sigmoid", "disp": "sigmoid", "category": "act" }];
+    // renderGraph(data);
 
     var $btn = $(this);
-    openModal($btn);
 
-    // $.ajax({
-    //   type: $btn.attr('method'),
-    //   url: $btn.attr('action'),
-    //   // data: { 'graph_name': graphName, 'data': myJSON },
-    //   // traditional: true,
-    //   success: function (ret) {
-    //     console.log(ret);
-    //     openModal($btn);
-    //   },
-    //   error: function (xhr, ajaxOptions, thrownError) {
-    //     alert(thrownError);
-    //   }
-    // });
+    // request for list of graph names
+    $.ajax({
+      type: $btn.attr('method'),
+      url: $btn.attr('action'),
+      // data: { 'graph_name': graphName, 'data': myJSON },
+      // traditional: true,
+      success: function (ret) {
+        console.log(ret);
+        var name = getGraphName(ret);
+        ajaxCall2(name);
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        alert(thrownError);
+      }
+    });
+
+    // request for graph data
+    function ajaxCall2(name) {
+      $.ajax({
+        type: $btn.attr('method'),
+        url: $btn.attr('action'),
+        graphName: name,
+        success: function (ret) {
+          renderGraph(ret);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          alert(thrownError);
+        }
+      });
+    }
+
   });
 });
-
-// get list of graph names from back end
-var graphNameList = ["1", "2", "3"];
-
-function openModal(btn) {
-  var modal = document.getElementById('myModal');
-
-  // Get the <span> element that closes the modal
-  var span = document.getElementsByClassName("close")[0];
-
-  // When the user clicks the button, open the modal 
-  btn.onclick = function () {
-    modal.style.display = "block";
-  }
-
-  // When the user clicks on <span> (x), close the modal
-  span.onclick = function () {
-    modal.style.display = "none";
-  }
-
-  // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  }
-}

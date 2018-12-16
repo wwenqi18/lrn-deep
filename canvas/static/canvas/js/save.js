@@ -35,36 +35,15 @@ jQuery(function($) {
       // convert canvas graph into JSON
       var nodes = diagram.model.nodeDataArray;
       var nodeData = [];
-      for (i = 0; i < nodes.length; i++) {
-        var node = nodes[i];
+      for (let node of nodes) {
         var obj = {};
-        var cat = node["category"];
-        obj["category"] = cat;
-        switch(cat) {
-          case "fc":
-            obj["output_size"] = node["output"];
-            break;
-          case "cnn":
-            obj["kernel_size"] = [node["kernel"], node["kernel"]];
-            obj["out_channels"] = node["out"];
-            break;
-          case "lstm":
-            obj["state_size"] = node["state"];
-            obj["bi_directional"] = node["bi"];
-            break;
-          case "act":
-            obj["type"] = node["type"];
-            break;
-          case "res":
-            obj["prev_layer"] = node["prev"];
-            break;
-          case "maxpool":
-            obj["pool_size"] = node["size"];
-          default:
-            break;
+        for (let attr in node) {
+          if (attr !== "color" && attr !== "__gohashid") {
+            obj[attr] = node[attr];
+          }
         }
         nodeData.push(obj);
-      } 
+      }
       return nodeData;
     }
 
