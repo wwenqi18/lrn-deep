@@ -102,6 +102,15 @@
                 e.preventDefault();
                 makeBlob();
               });
+            
+            // export button function
+            $("#topbar-help").click(function (e) {
+                e.preventDefault();
+                var str = "Common operations：";
+                str = str + "\n Add a layer: click on a shape and enter relevant parameters";
+                str = str + "\n Delete a layer: click on a shape and press DELETE key";
+                alert(str);
+              });
         </script>
         
         <!-- Canvas Initialization Script -->

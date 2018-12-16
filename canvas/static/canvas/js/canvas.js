@@ -7,10 +7,10 @@ function init() {
 
   // define diagram
   diagram = goo(go.Diagram, "canvas-diagram", {
-    initialContentAlignment: go.Spot.Center,
+    initialContentAlignment: go.Spot.MiddleLeft,
     allowDrop: true, // must be true to accept drops from the palette
     allowMove: false,
-    allowVerticalScroll: false,
+    allowVerticalScroll: true,
     allowHorizontalScroll: true,
     layout: goo(go.GridLayout)
   });
@@ -414,7 +414,7 @@ function init() {
   // display shapes
   palette.model = goo(go.GraphLinksModel, {
     nodeDataArray: [
-      { key: "1", desc: "Fully Connected Layer", color: "#86b3d1", category: "fc" },
+      { key: "1", desc: "Fully Connected", color: "#86b3d1", category: "fc" },
       { key: "2", desc: "CNN", color: "#86b3d1", category: "cnn" },
       { key: "3", desc: "LSTM", color: "#86b3d1", category: "lstm" },
       { key: "4", desc: "Activation", color: "#86b3d1", category: "act" },
@@ -458,7 +458,7 @@ function init() {
         } else {
           diagram.model.addNodeData(
             { key: id++, output_size: "" + output, disp: output, color: "#86b3d1", category: cat,
-              tooltip: "Fully Connected Layer\n" + "output size: " + output }
+              tooltip: "Fully Connected\n" + "output size: " + output }
           );
         }
         break;
