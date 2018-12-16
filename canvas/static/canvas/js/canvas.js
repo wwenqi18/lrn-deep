@@ -30,7 +30,15 @@ function init() {
         {
           margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366", angle: 90
         },
-        new go.Binding("text", "disp"))
+        new go.Binding("text", "disp")),
+      {
+        toolTip:  // define a tooltip for each node that displays the color as text
+          goo(go.Adornment, "Auto",
+            goo(go.Shape, { fill: "#FFFFCC" }),
+            goo(go.TextBlock, { margin: 4 },
+              new go.Binding("text", "category"))
+          )  // end of Adornment
+      }
     );
 
   // node template for cnn
@@ -379,6 +387,8 @@ function init() {
   function click(e, obj) {
     var cat = obj.data.category;
     switch(cat) {
+
+      // fully connected layer
       case "fc":
         var output = prompt("Output size: ", "100");
         if (output == null) {
@@ -389,6 +399,8 @@ function init() {
           );
         }
         break;
+
+      // CNN
       case "cnn":
         var kernelSize = prompt("Kernel size: ", "3");
         // var inChannel = prompt("Input channels: ", 3);
@@ -402,6 +414,8 @@ function init() {
           );
         }
         break;
+
+      // LSTM
       case "lstm":
         // check if it's the first layer
         if (diagram.model.nodeDataArray.length != 0) {
@@ -422,6 +436,8 @@ function init() {
           }
         }
         break;
+      
+      // Activation
       case "act":
         if (diagram.model.nodeDataArray.length == 0) {
           alert("Error: Activation cannot be the first layer of the network!")  

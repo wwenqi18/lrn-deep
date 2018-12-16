@@ -55,24 +55,22 @@ jQuery(function($) {
     } else {
       var $btn = $(this);
       var nodeData = convertGraph();
-	    // var myJSON = JSON.stringify({ graph_name: graphName, data: nodeData });
       var myJSON = JSON.stringify({ graph_name: graphName, data: nodeData });
-      console.log(myJSON);
 
-	  console.log($btn.attr('action'))
-	  $.ajax({
-		type: $btn.attr('method'),
-		url: $btn.attr('action'),
-		data: { 'graph_name' : graphName, 'data' : myJSON },
-		traditional: true,
-		success: function(ret) {
-		  console.log(ret);
-		  alert("Your workspace " + graphName + " has been saved!");
-		},
-		error: function(xhr, ajaxOptions, thrownError) {
-			alert(thrownError);
-		}
-	  });
+      console.log($btn.attr('action'))
+      $.ajax({
+        type: $btn.attr('method'),
+        url: $btn.attr('action'),
+        data: { 'graph_name' : graphName, 'data' : myJSON },
+        traditional: true,
+        success: function(ret) {
+          console.log(ret);
+          alert("Your workspace " + graphName + " has been saved!");
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+          alert(thrownError);
+        }
+      });
     }
   });
 });

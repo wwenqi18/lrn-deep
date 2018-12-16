@@ -51,7 +51,9 @@ jQuery(function ($) {
     }
 
     // render graph with graph data
-    function renderGraph(data) {
+    function renderGraph(myJSON) {
+      var data = myJSON["data"];
+      console.log(data);
       diagram.clear();
       for (let node of data) {
         node["color"] = "#86b3d1";
@@ -62,8 +64,8 @@ jQuery(function ($) {
     // test getGraphName() and renderGraph()
     // var graphNameList = ["1", "2", "3"];
     // getGraphName(graphNameList);
-    // var data = [{ "key": 0, "output_size": "100", "disp": "100", "category": "fc" }, { "key": 1, "output_size": "100", "disp": "100", "category": "fc" }, { "key": 2, "type": "sigmoid", "disp": "sigmoid", "category": "act" }];
-    // renderGraph(data);
+    // var myJSON = { "graph_name": "1", "data": [{ "key": 0, "category": "batch" }, { "key": 1, "category": "batch" }, { "key": 2, "category": "batch" }] };
+    // renderGraph(myJSON);
 
     var $btn = $(this);
 
