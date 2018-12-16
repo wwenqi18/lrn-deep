@@ -45,8 +45,9 @@ jQuery(function ($) {
       var name = prompt(str);
       if (name != null && name != "" && names.includes(name)) {
         //alert("Your canvas " + name + " is opened!");  
-		console.log(name)
+		//console.log(name)
       } else {
+		name = null
         alert("Please enter a valid value!");
       }
 	  return name;
@@ -81,8 +82,10 @@ jQuery(function ($) {
       success: function (ret) {
         console.log(ret);
         var name = getGraphName(ret);
-		console.log(name)
-        ajaxCall2(name);
+		//console.log(name)
+        
+		if (name != null && name != "") {
+		  ajaxCall2(name);
       },
       error: function (xhr, ajaxOptions, thrownError) {
         alert(thrownError);
@@ -97,6 +100,7 @@ jQuery(function ($) {
         data: { 'graph_name': name },
         success: function (ret) {
           renderGraph(ret);
+          alert("Your canvas " + name + " is opened!");  
         },
         error: function (xhr, ajaxOptions, thrownError) {
           alert(thrownError);
