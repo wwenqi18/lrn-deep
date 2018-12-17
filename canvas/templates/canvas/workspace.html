@@ -54,6 +54,18 @@
                     </div>
                     
                     <a href="#compile-diagram" class="topbar-btn btn btn-secondary" id="topbar-compile">Compile</a>
+                    <div id="compiledialog">
+                        Enter a name for your network:
+                        <input type="text" id="net_name" placeholder="Default Network" /><br />
+                        Please select a dataset:
+                        <select id="select-dataset">
+                            <option>mnist</option>
+                            <option>cifar10</option>
+                            <option>imdb</option>
+                        </select>
+                        <button id="compiledialog-btn" style="margin-top: 10px; " method="POST" action_graph={% url 'canvas:load' %}>Done</button>
+                    </div>
+
 					<button type="button" class="topbar-btn btn btn-secondary" id="topbar-save" method="POST" action={% url 'canvas:save' %}>Save</button>
                     <a href="#" class="topbar-btn btn btn-secondary" id="topbar-export">Export</a>
                     <a href="#" class="topbar-btn btn btn-secondary" id="topbar-help">Help</a>
@@ -111,7 +123,19 @@
     
         <!-- Top Bar Button Scripts -->
         <script>
+            $("#compiledialog").dialog({
+                autoOpen: false,
+                title: "Open"
+            });
+
             $("#topbar-compile").click(function(e) {
+                e.preventDefault();
+                $("#compiledialog").dialog("open");
+                $("#select-dataset").selectmenu();
+                $("#compiledialog-btn").button();
+            });
+
+            $("#compiledialog-btn").click(function(e) {
                 e.preventDefault();
                 diagramNodes = diagram.model.nodeDataArray;
                 // console.log(diagramNodes);
@@ -157,11 +181,14 @@
                     }
                 }
                 // console.log(network);
-                var net_name = prompt("Enter a name for your network: ");
+                var net_name_input = document.getElementById("net_name");
+                var net_name = net_name_input.value;
+                // var net_name = prompt("Enter a name for your network: ");
                 if (net_name == null || net_name == "") {
                     net_name = "Default Network";
                 }
-                var dataset = prompt("Dataset? Enter mnist/cifar10/imdb: ", "mnist");
+                var dataset = $("#select-dataset").find("option:selected").text();
+                // var dataset = prompt("Dataset? Enter mnist/cifar10/imdb: ", "mnist");
                 if (dataset == null || (dataset != "mnist" && dataset != "cifar10" && dataset != "imdb")) {
                     alert("Invalid dataset! Compilation terminated.");
                 } else {
@@ -177,6 +204,7 @@
                     $('#generated-code').fadeIn('fast');
                     Prism.highlightElement(document.getElementById("generated-code"));
                 }
+                $("#compiledialog").dialog("close");
             });
 
             // new button function
