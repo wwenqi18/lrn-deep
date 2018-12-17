@@ -1,4 +1,50 @@
 function init() {
+  $("#fcdialog").dialog({
+    autoOpen: false,
+    title: "Add component: Fully Connected Layer"
+  });
+
+  $("#fcdialog-btn").click(function () {
+    var inputOutputSize = document.getElementById("fc_output_size");
+    var output = inputOutputSize.value;
+    if (output == null || output == "") {
+      alert("Please enter a valid value!");
+    } else {
+      diagram.model.addNodeData(
+        { key: id++, output_size: "" + output, disp: output, color: "#86b3d1", category: "fc",
+          tooltip: "Fully Connected\n" + "output size: " + output }
+      );
+      // Clear inputs
+      inputOutputSize.value = "";
+      $("#fcdialog").dialog("close");
+    }
+  }); // End fcdialog-btn click
+
+  $("#cnndialog").dialog({
+    autoOpen: false,
+    title: "Add component: CNN"
+  });
+
+  $("#cnndialog-btn").click(function () {
+    var inputKernelSize = document.getElementById("cnn_kernel_size");
+    var inputOutChannel = document.getElementById("cnn_kernel_size");
+    var kernelSize = inputKernelSize.value;
+    var outChannel = inputOutChannel.value;
+    if (kernelSize == null || outChannel == null || kernelSize == "" || outChannel == "") {
+      alert("Please enter a valid value!");  
+    } else {
+      diagram.model.addNodeData(
+        { key: id++, kernel_size: "" + kernelSize, out_channels: "" + outChannel, 
+          color: "#86b3d1", disp: outChannel, category: "cnn", 
+          tooltip: "CNN\n" + "kernel size: [" + kernelSize + ", " + kernelSize + "]\n output channels: " + outChannel }
+      );
+      // Clear inputs
+      inputKernelSize.value = "";
+      inputOutChannel.value = "";
+      $("#cnndialog").dialog("close");
+    }
+  }); // End cnndialog-btn click
+
   var goo = go.GraphObject.make;
 
   /**
@@ -457,31 +503,35 @@ function init() {
 
       // fully connected layer
       case "fc":
-        var output = prompt("Output size: ", "100");
-        if (output == null) {
-          alert("Please enter a valid value!");
-        } else {
-          diagram.model.addNodeData(
-            { key: id++, output_size: "" + output, disp: output, color: "#86b3d1", category: cat,
-              tooltip: "Fully Connected\n" + "output size: " + output }
-          );
-        }
+        $("#fcdialog").dialog("open");
+        $("#fcdialog-btn").button();
+        // var output = prompt("Output size: ", "100");
+        // if (output == null) {
+        //   alert("Please enter a valid value!");
+        // } else {
+        //   diagram.model.addNodeData(
+        //     { key: id++, output_size: "" + output, disp: output, color: "#86b3d1", category: cat,
+        //       tooltip: "Fully Connected\n" + "output size: " + output }
+        //   );
+        // }
         break;
 
       // CNN
       case "cnn":
-        var kernelSize = prompt("Kernel size: ", "3");
+        $("#cnndialog").dialog("open");
+        $("#cnndialog-btn").button();
+        // var kernelSize = prompt("Kernel size: ", "3");
         // var inChannel = prompt("Input channels: ", 3);
-        var outChannel = prompt("Output channels: ", 3);
-        if (kernelSize == null || outChannel == null) {
-          alert("Please enter a valid value!");  
-        } else {
-          diagram.model.addNodeData(
-            { key: id++, kernel_size: "" + kernelSize, out_channels: "" + outChannel, 
-              color: "#86b3d1", disp: outChannel, category: cat, 
-              tooltip: "CNN\n" + "kernel size: [" + kernelSize + ", " + kernelSize + "]\n output channels: " + outChannel }
-          );
-        }
+        // var outChannel = prompt("Output channels: ", 3);
+        // if (kernelSize == null || outChannel == null) {
+        //   alert("Please enter a valid value!");  
+        // } else {
+        //   diagram.model.addNodeData(
+        //     { key: id++, kernel_size: "" + kernelSize, out_channels: "" + outChannel, 
+        //       color: "#86b3d1", disp: outChannel, category: cat, 
+        //       tooltip: "CNN\n" + "kernel size: [" + kernelSize + ", " + kernelSize + "]\n output channels: " + outChannel }
+        //   );
+        // }
         break;
 
       // LSTM
