@@ -5,8 +5,7 @@ function init() {
   });
 
   $("#fcdialog-btn").click(function () {
-    var inputOutputSize = document.getElementById("fc_output_size");
-    var output = inputOutputSize.value;
+    var output = $("#fc_output_size").spinner("value");
     if (output == null || output == "") {
       alert("Please enter a valid value!");
     } else {
@@ -14,8 +13,8 @@ function init() {
         { key: id++, output_size: "" + output, disp: output, color: "#86b3d1", category: "fc",
           tooltip: "Fully Connected\n" + "output size: " + output }
       );
-      // Clear inputs
-      inputOutputSize.value = "";
+      // Reset inputs
+      // $("#fc_output_size").spinner("value", "100");
       $("#fcdialog").dialog("close");
     }
   }); // End fcdialog-btn click
@@ -26,10 +25,8 @@ function init() {
   });
 
   $("#cnndialog-btn").click(function () {
-    var inputKernelSize = document.getElementById("cnn_kernel_size");
-    var inputOutChannel = document.getElementById("cnn_out_channels");
-    var kernelSize = inputKernelSize.value;
-    var outChannel = inputOutChannel.value;
+    var kernelSize = $("#cnn_kernel_size").spinner("value");
+    var outChannel = $("#cnn_out_channels").spinner("value");
     if (kernelSize == null || outChannel == null || kernelSize == "" || outChannel == "") {
       alert("Please enter a valid value!");  
     } else {
@@ -38,9 +35,9 @@ function init() {
           color: "#86b3d1", disp: outChannel, category: "cnn", 
           tooltip: "CNN\n" + "kernel size: [" + kernelSize + ", " + kernelSize + "]\n output channels: " + outChannel }
       );
-      // Clear inputs
-      inputKernelSize.value = "";
-      inputOutChannel.value = "";
+      // Reset inputs
+      // $("#cnn_kernel_size").spinner("value", "3");
+      // $("#cnn_out_channels").spinner("value", "3");
       $("#cnndialog").dialog("close");
     }
   }); // End cnndialog-btn click
@@ -51,8 +48,7 @@ function init() {
   });
 
   $("#lstmdialog-btn").click(function () {
-    var inputStateSize = document.getElementById("lstm_state_size");
-    var stateSize = inputStateSize.value;
+    var stateSize = $("#lstm_state_size").spinner("value");
     var biDirectional = $("input[name='bidirectional']:checked")[0].value;
     if (stateSize == null || stateSize == "") {
       alert("Please enter a valid value!");  
@@ -65,8 +61,8 @@ function init() {
           tooltip: "LSTM\n" + "state size: " + stateSize + "\n bi-directional: " + biDirectional
         }
       );
-      // Clear inputs
-      inputStateSize.value = "";
+      // Reset inputs
+      // $("#lstm_state_size").spinner("value", 100);
       $("#lstmdialog").dialog("close");
     }
   }); // End lstmdialog-btn click
@@ -99,8 +95,7 @@ function init() {
   });
 
   $("#maxpooldialog-btn").click(function () {
-    var inputPoolSize = document.getElementById("maxpool_pool_size");
-    var size = inputPoolSize.value;
+    var size = $("#maxpool_pool_size").spinner("value");
     if (size == null || size == "") {
       alert("Please enter a valid value!");
     } else {
@@ -111,8 +106,8 @@ function init() {
           tooltip: "Max Pooling 2D\n" + "pool size: [" + size + ", " + size + "]"
         }
       );
-      // Clear inputs
-      inputPoolSize.value = "";
+      // Reset inputs
+      // $("#maxpool_pool_size").spinner("value", 2);
       $("#maxpooldialog").dialog("close");
     }
   }); // End maxpooldialog-btn click
@@ -576,6 +571,7 @@ function init() {
       // fully connected layer
       case "fc":
         $("#fcdialog").dialog("open");
+        $("#fc_output_size").spinner();
         $("#fcdialog-btn").button();
         // var output = prompt("Output size: ", "100");
         // if (output == null) {
@@ -591,6 +587,8 @@ function init() {
       // CNN
       case "cnn":
         $("#cnndialog").dialog("open");
+        $("#cnn_kernel_size").spinner();
+        $("#cnn_out_channels").spinner();
         $("#cnndialog-btn").button();
         // var kernelSize = prompt("Kernel size: ", "3");
         // var inChannel = prompt("Input channels: ", 3);
@@ -610,6 +608,7 @@ function init() {
       case "lstm":
         // check if it's the first layer
         $("#lstmdialog").dialog("open");
+        $("#lstm_state_size").spinner();
         $("#bidirectional-yes").checkboxradio();
         $("#bidirectional-no").checkboxradio();
         $("#lstmdialog-btn").button();
@@ -693,6 +692,7 @@ function init() {
           }
           else {
             $("#maxpooldialog").dialog("open");
+            $("#maxpool_pool_size").spinner();
             $("#maxpooldialog-btn").button();
             // var size = prompt("Pool size: ", "2");
             // if (size == null || size == "") {
