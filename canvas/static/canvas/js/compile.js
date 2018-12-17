@@ -112,8 +112,13 @@ function build_model(network, net_config){
 
     else if(network[i]["name"] == "LSTM") {
       if(i == 0) code_model += add_embedding(net_config["dataset"]);
-      if(network[i + 1]["name"] == "LSTM") code_model += add_lstm(network[i], false);
-      else code_model += add_lstm(network[i], true);
+      if(i != network.length - 1) {
+        if(network[i + 1]["name"] == "LSTM") code_model += add_lstm(network[i], false);
+        else code_model += add_lstm(network[i], true);
+      }
+      else {
+        code_model += add_lstm(network[i], true); 
+      }
     }
 
     else if(network[i]["name"] == "MaxPooling2D") {

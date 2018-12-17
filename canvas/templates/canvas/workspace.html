@@ -180,7 +180,7 @@
                         });
                     }
                 }
-                // console.log(network);
+                console.log(network);
                 var net_name_input = document.getElementById("net_name");
                 var net_name = net_name_input.value;
                 // var net_name = prompt("Enter a name for your network: ");
@@ -222,6 +222,33 @@
             $("#topbar-export").click(function (e) {
                 e.preventDefault();
                 makeBlob();
+                  // Also save .py file
+  var code = document.getElementById("generated-code").textContent;
+  console.log(code);
+
+  var blob2 = new Blob([code]);
+  var url2 = URL.createObjectURL(blob2);
+  var filename2 = "code.py";
+
+  var a2 = document.createElement("a2");
+  a2.style = "display: none";
+  a2.href = url2;
+  a2.download = filename2;
+
+  console.log("crh");
+
+  // IE 11
+  if (window.navigator.msSaveBlob !== undefined) {
+    window.navigator.msSaveBlob(blob2, filename2);
+    return;
+  }
+
+  document.body.appendChild(a2);
+  requestAnimationFrame(function () {
+    a2.click();
+    window.URL.revokeObjectURL(url2);
+    document.body.removeChild(a2);
+  });
               });
             
             // export button function
