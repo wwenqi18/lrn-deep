@@ -100,7 +100,7 @@ function build_model(network, net_config){
     if(network[i]["name"] == "FC") {
       if(i != 0) {
         input_shape = 0;
-        if(cnn_in_prev(network, i)) code_model += add_flatten();
+        if(cnn_in_prev(network, i) == true) code_model += add_flatten();
       }
       code_model += add_dense(input_shape, network[i]["output_shape"]); 
     }
@@ -163,21 +163,19 @@ function scan_layers(layers) {
 function cnn_in_prev(network, i){
   ret = false;
   for(j = 0; j < i; j++) {
-    if(network[i]["name"] == "CNN") {
+    if(network[j]["name"] == "CNN") {
       ret = true;
       break;
     }
   }
   for(j = 0; j < i; j++) {
-    if(network[i]["name"] == "FC") {
+    if(network[j]["name"] == "FC") {
       ret = false;
       break;
     }
   }
   return ret;
 }
-  
-
 
 function get_input_shape(first_layer, dataset) {
   if(dataset == "mnist") {
@@ -291,15 +289,15 @@ function add_train(){
 // network = []
 
 // Example 3
-net_config = {"name": "my_third_network", "dataset": "mnist"};
-network = [
-  {"name": "FC", "output_shape": 128},
-  // {"name": "activation", "type": "sigmoid"},
-  {"name": "FC", "output_shape": 128},
-  // {"name": "activation", "type": "sigmoid"},
-  {"name": "batch_norm"},
-  {"name": "FC", "output_shape": 10},
-]
+// net_config = {"name": "my_third_network", "dataset": "mnist"};
+// network = [
+//   {"name": "FC", "output_shape": 128},
+//   {"name": "activation", "type": "sigmoid"},
+//   {"name": "FC", "output_shape": 128},
+//   {"name": "activation", "type": "sigmoid"},
+//   {"name": "batch_norm"},
+//   {"name": "FC", "output_shape": 10},
+// ]
 
 // ---- Examples with the cifar10 dataset ----
 // Example 4
