@@ -27,7 +27,7 @@ function init() {
 
   $("#cnndialog-btn").click(function () {
     var inputKernelSize = document.getElementById("cnn_kernel_size");
-    var inputOutChannel = document.getElementById("cnn_kernel_size");
+    var inputOutChannel = document.getElementById("cnn_out_channels");
     var kernelSize = inputKernelSize.value;
     var outChannel = inputOutChannel.value;
     if (kernelSize == null || outChannel == null || kernelSize == "" || outChannel == "") {
@@ -44,6 +44,78 @@ function init() {
       $("#cnndialog").dialog("close");
     }
   }); // End cnndialog-btn click
+
+  $("#lstmdialog").dialog({
+    autoOpen: false,
+    title: "Add component: LSTM"
+  });
+
+  $("#lstmdialog-btn").click(function () {
+    var inputStateSize = document.getElementById("lstm_state_size");
+    var stateSize = inputStateSize.value;
+    var biDirectional = $("input[name='bidirectional']:checked").value;
+    if (stateSize == null || stateSize == "") {
+      alert("Please enter a valid value!");  
+    } else {
+      biDirectional = "Yes" ? true : false;
+      diagram.model.addNodeData(
+        {
+          key: id++, state_size: "" + stateSize, bi_directional: "" + biDirectional,
+          color: "#86b3d1", disp: stateSize, category: "lstm",
+          tooltip: "LSTM\n" + "state size: " + stateSize + "\n bi-directional: " + biDirectional
+        }
+      );
+      // Clear inputs
+      inputStateSize.value = "";
+      $("#lstmdialog").dialog("close");
+    }
+  }); // End lstmdialog-btn click
+
+  $("#actdialog").dialog({
+    autoOpen: false,
+    title: "Add component: Activation Layer"
+  });
+
+  $("#actdialog-btn").click(function () {
+    // find current selected graph
+    type = $("#select-act-type").find("option:selected").text();
+    if (type == null || (type != "sigmoid" && type != "tanh" && type != "relu")) {
+      alert("Please enter a valid value!");  
+    } else {
+      diagram.model.addNodeData(
+        {
+          key: id++, type: "" + type,
+          color: "#86b3d1", disp: type, category: "act",
+          tooltip: "Activation\n" + "type: " + type
+        }
+      );
+      $("#actdialog").dialog("close");
+    }
+  }); // End actdialog-btn click
+
+  $("#maxpooldialog").dialog({
+    autoOpen: false,
+    title: "Add component: Max Pooling 2D"
+  });
+
+  $("#maxpooldialog-btn").click(function () {
+    var inputPoolSize = document.getElementById("maxpool_pool_size");
+    var size = inputPoolSize.value;
+    if (size == null || size == "") {
+      alert("Please enter a valid value!");
+    } else {
+      diagram.model.addNodeData(
+        {
+          key: id++, pool_size: "" + size,
+          color: "#86b3d1", disp: size, category: "maxpool",
+          tooltip: "Max Pooling 2D\n" + "pool size: [" + size + ", " + size + "]"
+        }
+      );
+      // Clear inputs
+      inputPoolSize.value = "";
+      $("#maxpooldialog").dialog("close");
+    }
+  }); // End maxpooldialog-btn click
 
   var goo = go.GraphObject.make;
 
@@ -537,20 +609,24 @@ function init() {
       // LSTM
       case "lstm":
         // check if it's the first layer
-        var stateSize = prompt("State size: ", 100);
-        var biDirectional = prompt("Bi-directional? Enter yes/no: ", "yes");
-        if (stateSize == null || (biDirectional != "yes" && biDirectional != "no")) {
-          alert("Please enter a valid value!");
-        } else {
-          biDirectional = "yes" ? true : false;
-          diagram.model.addNodeData(
-            {
-              key: id++, state_size: "" + stateSize, bi_directional: "" + biDirectional,
-              color: "#86b3d1", disp: stateSize, category: cat,
-              tooltip: "LSTM\n" + "state size: " + stateSize + "\n bi-directional: " + biDirectional
-            }
-          ); 
-        }
+        $("#lstmdialog").dialog("open");
+        $("#bidirectional-yes").checkboxradio();
+        $("#bidirectional-no").checkboxradio();
+        $("#lstmdialog-btn").button();
+        // var stateSize = prompt("State size: ", 100);
+        // var biDirectional = prompt("Bi-directional? Enter yes/no: ", "yes");
+        // if (stateSize == null || (biDirectional != "yes" && biDirectional != "no")) {
+        //   alert("Please enter a valid value!");
+        // } else {
+        //   biDirectional = "yes" ? true : false;
+        //   diagram.model.addNodeData(
+        //     {
+        //       key: id++, state_size: "" + stateSize, bi_directional: "" + biDirectional,
+        //       color: "#86b3d1", disp: stateSize, category: cat,
+        //       tooltip: "LSTM\n" + "state size: " + stateSize + "\n bi-directional: " + biDirectional
+        //     }
+        //   ); 
+        // }
         break;
       
       // Activation
@@ -558,18 +634,21 @@ function init() {
         if (diagram.model.nodeDataArray.length == 0) {
           alert("Error: Activation cannot be the first layer of the network!")  
         } else {
-          var type = prompt("Activation type? Enter sigmoid/tanh/relu: ", "sigmoid");
-          if (type == null || (type != "sigmoid" && type != "tanh" && type != "relu")) {
-            alert("Please enter a valid value!");
-          } else {
-            diagram.model.addNodeData(
-              {
-                key: id++, type: "" + type,
-                color: "#86b3d1", disp: type, category: cat,
-                tooltip: "Activation\n" + "type: " + type
-              }
-            );
-          }
+          $("#actdialog").dialog("open");
+          $("#select-act-type").selectmenu();
+          $("#actdialog-btn").button();
+          // var type = prompt("Activation type? Enter sigmoid/tanh/relu: ", "sigmoid");
+          // if (type == null || (type != "sigmoid" && type != "tanh" && type != "relu")) {
+          //   alert("Please enter a valid value!");
+          // } else {
+          //   diagram.model.addNodeData(
+          //     {
+          //       key: id++, type: "" + type,
+          //       color: "#86b3d1", disp: type, category: cat,
+          //       tooltip: "Activation\n" + "type: " + type
+          //     }
+          //   );
+          // }
         }
         break;
       
@@ -613,18 +692,20 @@ function init() {
             alert("Error: Max Pooling 2D should always follow a CNN layer!");
           }
           else {
-            var size = prompt("Pool size: ", "2");
-            if (size == null || size == "") {
-              alert("Please enter a valid value!");  
-            } else {
-              diagram.model.addNodeData(
-                {
-                  key: id++, pool_size: "" + size,
-                  color: "#86b3d1", disp: size, category: cat,
-                  tooltip: "Max Pooling 2D\n" + "pool size: [" + size + ", " + size + "]"
-                }
-              );
-            }
+            $("#maxpooldialog").dialog("open");
+            $("#maxpooldialog-btn").button();
+            // var size = prompt("Pool size: ", "2");
+            // if (size == null || size == "") {
+            //   alert("Please enter a valid value!");  
+            // } else {
+            //   diagram.model.addNodeData(
+            //     {
+            //       key: id++, pool_size: "" + size,
+            //       color: "#86b3d1", disp: size, category: cat,
+            //       tooltip: "Max Pooling 2D\n" + "pool size: [" + size + ", " + size + "]"
+            //     }
+            //   );
+            // }
           }
         } else {
           alert("Error: Max Pooling 2D should always follow a CNN layer!");  

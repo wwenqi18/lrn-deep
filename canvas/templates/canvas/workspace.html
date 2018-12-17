@@ -76,6 +76,28 @@
                             Output channels: <input type="text" id="cnn_out_channels" placeholder="3" /><br />
                             <button id="cnndialog-btn" style="margin-top: 10px; ">Done</button>
                         </div>
+                        <div id="lstmdialog">
+                                State size: <input type="text" id="lstm_state_size" placeholder="100" /><br />
+                                Bi-directional?<br />
+                                <label for="bidirectional-yes">Yes</label>
+                                <input type="radio" name="bidirectional" id="bidirectional-yes" />
+                                <label for="bidirectional-no">No</label>
+                                <input type="radio" name="bidirectional" id="bidirectional-no" checked /><br />
+                                <button id="lstmdialog-btn" style="margin-top: 10px; ">Done</button>
+                            </div>
+                        <div id="actdialog">
+                            Activation type:
+                            <select id="select-act-type">
+                                <option>sigmoid</option>
+                                <option>tanh</option>
+                                <option>relu</option>
+                            </select>
+                            <button id="actdialog-btn" style="margin-top: 10px; ">Done</button>
+                        </div>
+                        <div id="maxpooldialog">
+                            Pool size: <input type="text" id="maxpool_pool_size" placeholder="2" /><br />
+                            <button id="maxpooldialog-btn" style="margin-top: 10px; ">Done</button>
+                        </div>
                     </div>
                 </div> <!-- /#canvas-wrapper -->
                 <!-- Code -->
