@@ -53,11 +53,11 @@ function init() {
   $("#lstmdialog-btn").click(function () {
     var inputStateSize = document.getElementById("lstm_state_size");
     var stateSize = inputStateSize.value;
-    var biDirectional = $("input[name='bidirectional']:checked").value;
+    var biDirectional = $("input[name='bidirectional']:checked")[0].value;
     if (stateSize == null || stateSize == "") {
       alert("Please enter a valid value!");  
     } else {
-      biDirectional = "Yes" ? true : false;
+      biDirectional = (biDirectional == "yes") ? true : false;
       diagram.model.addNodeData(
         {
           key: id++, state_size: "" + stateSize, bi_directional: "" + biDirectional,

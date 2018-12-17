@@ -46,13 +46,14 @@ jQuery(function ($) {
         $("#select-canvas").selectmenu();
         $("#opendialog-btn").button();
         selectcanvas = document.getElementById("select-canvas");
+        $("#select-canvas option").remove();
         // var str = "Your canvases: \n";
         for (let name of names) {
           // str = str + name + "\n";
           selectcanvas.add(new Option(name));
         }
         name = null;
-        // console.log(selectcanvas.options);
+        $("#select-canvas").selectmenu("refresh");
         // str = str + "Please enter the name of the canvas you want to open: "
       }
       // var name = prompt(str);
@@ -186,7 +187,7 @@ jQuery(function ($) {
         data: { 'graph_name': name },
         success: function (ret) {
           renderGraph(ret);
-          alert("Your canvas " + name + " will be opened!");  
+          // alert("Your canvas " + name + " will be opened!");  
         },
         error: function (xhr, ajaxOptions, thrownError) {
           alert(thrownError);

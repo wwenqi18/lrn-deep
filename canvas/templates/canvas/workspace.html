@@ -92,9 +92,9 @@
                                 State size: <input type="text" id="lstm_state_size" placeholder="100" /><br />
                                 Bi-directional?<br />
                                 <label for="bidirectional-yes">Yes</label>
-                                <input type="radio" name="bidirectional" id="bidirectional-yes" />
+                                <input type="radio" name="bidirectional" id="bidirectional-yes" value="yes" />
                                 <label for="bidirectional-no">No</label>
-                                <input type="radio" name="bidirectional" id="bidirectional-no" checked /><br />
+                                <input type="radio" name="bidirectional" id="bidirectional-no" value="no" checked /><br />
                                 <button id="lstmdialog-btn" style="margin-top: 10px; ">Done</button>
                             </div>
                         <div id="actdialog">
@@ -157,7 +157,7 @@
                         network.push({
                             "name": "LSTM", 
                             "state_size": diagramNodes[i]["state_size"],
-                            "bi-directional": diagramNodes[i]["bi-directional"]
+                            "bi-directional": diagramNodes[i]["bi_directional"]
                         });
                     } else if (node_name == "fc") {
                         network.push({
@@ -196,8 +196,8 @@
                         "name": net_name,
                         "dataset": dataset
                     }
+                    // console.log(net_config);
                     generatedCode = compile(network, net_config);
-                    // console.log(network, net_config);
                     // Allow animation for generating code
                     $('#generated-code').fadeOut('fast');
                     document.getElementById("generated-code").innerHTML = generatedCode;
