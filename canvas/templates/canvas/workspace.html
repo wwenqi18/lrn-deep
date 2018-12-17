@@ -96,7 +96,7 @@
                     } else if (node_name == "fc") {
                         network.push({
                             "name": "FC", 
-                            "output_shape": diagramNodes[i]["output"]
+                            "output_shape": diagramNodes[i]["output_size"]
                         });
                     } else if (node_name == "res") {
                         network.push({
@@ -115,13 +115,26 @@
                     }
                 }
                 // console.log(network);
-                var network_name = "default";
-                generatedCode = compile(network, network_name);
-                // Allow animation for generating code
-                $('#generated-code').fadeOut('fast');
-                document.getElementById("generated-code").innerHTML = generatedCode;
-                $('#generated-code').fadeIn('fast');
-                Prism.highlightElement(document.getElementById("generated-code"));
+                var net_name = prompt("Enter a name for your network: ");
+                if (net_name == null || net_name == "") {
+                    net_name = "Default Network";
+                }
+                var dataset = prompt("Dataset? Enter mnist/cifar10/imdb: ", "mnist");
+                if (dataset == null || (dataset != "mnist" && dataset != "cifar10" && dataset != "imdb")) {
+                    alert("Invalid dataset! Compilation terminated.");
+                } else {
+                    var net_config = {
+                        "name": net_name,
+                        "dataset": dataset
+                    }
+                    generatedCode = compile(network, net_config);
+                    // console.log(network, net_config);
+                    // Allow animation for generating code
+                    $('#generated-code').fadeOut('fast');
+                    document.getElementById("generated-code").innerHTML = generatedCode;
+                    $('#generated-code').fadeIn('fast');
+                    Prism.highlightElement(document.getElementById("generated-code"));
+                }
             });
 
             // new button function
