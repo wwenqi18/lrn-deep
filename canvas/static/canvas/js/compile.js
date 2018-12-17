@@ -100,9 +100,7 @@ function build_model(network, net_config){
     if(network[i]["name"] == "FC") {
       if(i != 0) {
         input_shape = 0;
-        if(network[i - 1]["name"] == "CNN" || network[i - 1]["name"] == "MaxPooling2D") {
-          code_model += add_flatten();
-        }
+        if(cnn_in_prev(network, i) == true) code_model += add_flatten();
       }
       code_model += add_dense(input_shape, network[i]["output_shape"]); 
     }
@@ -114,11 +112,16 @@ function build_model(network, net_config){
 
     else if(network[i]["name"] == "LSTM") {
       if(i == 0) code_model += add_embedding(net_config["dataset"]);
-      code_model += add_lstm(network[i]);
+      if(network[i + 1]["name"] == "LSTM") code_model += add_lstm(network[i], false);
+      else code_model += add_lstm(network[i], true);
     }
 
     else if(network[i]["name"] == "MaxPooling2D") {
       code_model += add_pooling(network[i]);
+    }
+
+    else if(network[i]["name"] == "batch_norm") {
+      code_model += add_batch_norm();
     }
 
     else if(network[i]["name"] == "activation") {
@@ -134,29 +137,44 @@ function build_model(network, net_config){
 }
 
 function scan_layers(layers) {
-  code_layers = "from keras.layers import ";
+  code_layers = "from keras.layers import Activation";
   layers_to_add = []
   for (i = 0; i < layers.length; i++)
   {
     l = ""
     if(layers[i]["name"] == "CNN") l = "Conv2D";
-    else if(layers[i]["name"] == "activation") l = "Activation";
     else if(layers[i]["name"] == "MaxPooling2D") l = "MaxPooling2D"; 
     else if(layers[i]["name"] == "LSTM") l = "LSTM";
     else if(layers[i]["name"] == "FC") l = "Dense";
+    else if(layers[i]["name"] == "batch_norm") l = "BatchNormalization";
 
-    if(layers_to_add.includes(l) == false) {
+    if(layers_to_add.includes(l) == false && l != "") {
       layers_to_add.push(l);
       if(l == "LSTM") layers_to_add.push("Embedding");
       if(l == "Conv2D") layers_to_add.push("Flatten");
     }
   }
-  
   for (i = 0; i < layers_to_add.length; i++) {
-    if(i == 0) code_layers += layers_to_add[i];
-    else code_layers += ", " + layers_to_add[i];
+    code_layers += ", " + layers_to_add[i];
   }
   return code_layers + "\n\n"
+}
+
+function cnn_in_prev(network, i){
+  ret = false;
+  for(j = 0; j < i; j++) {
+    if(network[j]["name"] == "CNN") {
+      ret = true;
+      break;
+    }
+  }
+  for(j = 0; j < i; j++) {
+    if(network[j]["name"] == "FC") {
+      ret = false;
+      break;
+    }
+  }
+  return ret;
 }
 
 function get_input_shape(first_layer, dataset) {
@@ -196,6 +214,10 @@ function add_pooling(layer) {
   return code_pooling;
 }
 
+function add_batch_norm(layer) {
+  return "model.add(BatchNormalization())\n";
+}
+
 function add_embedding(dataset) {
   var code_emb = "";
   if(dataset == "imdb") {
@@ -204,18 +226,22 @@ function add_embedding(dataset) {
   return code_emb;
 }
 
-function add_lstm(layer) {
+function add_lstm(layer, last_lstm) {
   var code_lstm = "";
 
   code_lstm += "model.add(";
   if(layer["bi-directional"] == true){
     code_lstm += "Bidirectional(";
     code_lstm +="LSTM(" + layer["state_size"];
-    code_lstm += ", dropout=0.2, recurrent_dropout=0.2)))\n";
+    code_lstm += ", dropout=0.2, recurrent_dropout=0.2"
+    if(last_lstm == true) code_lstm += ")))\n";
+    else code_lstm += ", return_sequences=True)))\n";
   }
   else {
     code_lstm +="LSTM(" + layer["state_size"];
-    code_lstm += ", dropout=0.2, recurrent_dropout=0.2))\n";
+    code_lstm += ", dropout=0.2, recurrent_dropout=0.2"
+    if(last_lstm == true) code_lstm += "))\n";
+    else code_lstm += ", return_sequences=True))\n";
   }
   return code_lstm
 }
@@ -268,7 +294,8 @@ function add_train(){
 //   {"name": "FC", "output_shape": 128},
 //   {"name": "activation", "type": "sigmoid"},
 //   {"name": "FC", "output_shape": 128},
-//   {"name": "activation", "type": "tanh"},
+//   {"name": "activation", "type": "sigmoid"},
+//   {"name": "batch_norm"},
 //   {"name": "FC", "output_shape": 10},
 // ]
 
@@ -301,6 +328,6 @@ function add_train(){
 //   {"name": "FC", "output_shape": 1},
 // ]
 
-// codes = compile(network, net_config)
+codes = compile(network, net_config)
 
-// console.log(codes)
+console.log(codes)
