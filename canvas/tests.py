@@ -5,10 +5,15 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.alert import Alert
+from selenium.common.exceptions import NoAlertPresentException, TimeoutException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ExpectedConditions
 
 from users.models import CustomUser
 
 import urllib
+from time import sleep
 
 # Create your tests here.
 
@@ -28,9 +33,23 @@ class DragFromPaletteTestCase(StaticLiveServerTestCase):
         # Opening the link we want to test
         driver.get(urllib.parse.urljoin(self.live_server_url, "canvas/workspace/"))
         # Utilize the Robot class to simulate input in GoJS
-        script1 = "var robot = new Robot(diagram); "
-        driver.execute_script("".join([script1]))
-        print(driver.page_source)
+        scripts = []
+        scripts.append("var robot = new Robot(palette); ")
+        scripts.append("fcl = palette.findNodeForKey(\"add\"); ")
+        scripts.append("loc = fcl.location; ")
+        scripts.append("robot.mouseDown(loc.x + 10, loc.y + 10, 0, { }); ")
+        scripts.append("robot.mouseUp(loc.x + 10, loc.y + 10, 100, { }); ")
+        sleep(2) # To make sure the object is in place
+        driver.execute_script("".join(scripts))
+        # Send input and output dimensions to the alert
+        wait = WebDriverWait(driver, 10)
+        try:
+            while wait.until(ExpectedConditions.alert_is_present()):
+                sleep(2)
+                driver.switch_to.alert.accept()
+        except TimeoutException:
+            pass
+        sleep(5)
 
 def selenium_login(driver, live_server_url):
     """ Login via fake credentials """

@@ -6,6 +6,4 @@
 # Adopted from https://github.com/gailkaiser/coms4156_jumpstart
 
 echo "Performing pre-commit building and testing..."
-python3 -m pylint -ry --load-plugins pylint_django canvas/ --disable=C,R,W
-python3 -m pylint -ry --load-plugins pylint_django lrndeep/ --disable=C,R,W
-python3 -m pylint -ry --load-plugins pylint_django users/ --disable=C,R,W
+python3 -m pylint -ry --load-plugins pylint_django lrndeep/ canvas/ users/ --disable=C,R,W > reports/precommit.txt
