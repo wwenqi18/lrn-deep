@@ -133,32 +133,32 @@ function init() {
     );
 
   // node template for residual
-  var residualDiagram =
-    goo(go.Node, 'Auto',
-      {
-        locationSpot: go.Spot.Center,
-        mouseEnter: mouseEnter,
-        mouseLeave: mouseLeave,
-      },
-      goo(go.Shape, 'Collate',
-        {
-          "name": "SHAPE", "stroke": "#4d6d9a", "width": 50, "height": 120
-        },
-        new go.Binding("fill", "color")),
-      goo(go.TextBlock,
-        {
-          margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366", angle: 90
-        },
-        new go.Binding("text", "disp")),
-      {
-        toolTip:  // define a tooltip for each node that displays the color as text
-          goo(go.Adornment, "Auto",
-            goo(go.Shape, { fill: "white" }),
-            goo(go.TextBlock, { margin: 4 },
-              new go.Binding("text", "tooltip"))
-          )  // end of Adornment
-      }
-    );
+  // var residualDiagram =
+  //   goo(go.Node, 'Auto',
+  //     {
+  //       locationSpot: go.Spot.Center,
+  //       mouseEnter: mouseEnter,
+  //       mouseLeave: mouseLeave,
+  //     },
+  //     goo(go.Shape, 'Collate',
+  //       {
+  //         "name": "SHAPE", "stroke": "#4d6d9a", "width": 50, "height": 120
+  //       },
+  //       new go.Binding("fill", "color")),
+  //     goo(go.TextBlock,
+  //       {
+  //         margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366", angle: 90
+  //       },
+  //       new go.Binding("text", "disp")),
+  //     {
+  //       toolTip:  // define a tooltip for each node that displays the color as text
+  //         goo(go.Adornment, "Auto",
+  //           goo(go.Shape, { fill: "white" }),
+  //           goo(go.TextBlock, { margin: 4 },
+  //             new go.Binding("text", "tooltip"))
+  //         )  // end of Adornment
+  //     }
+  //   );
 
   // node template for batch norm
   var batchDiagram =
@@ -222,7 +222,7 @@ function init() {
   templateMapDiagram.add("cnn", cnnDiagram);
   templateMapDiagram.add("lstm", lstmDiagram);
   templateMapDiagram.add("act", actDiagram);
-  templateMapDiagram.add("res", residualDiagram);
+  // templateMapDiagram.add("res", residualDiagram);
   templateMapDiagram.add("batch", batchDiagram);
   templateMapDiagram.add("maxpool", maxpoolDiagram);
   diagram.nodeTemplateMap = templateMapDiagram;
@@ -342,25 +342,25 @@ function init() {
     );
 
   // node template for residual
-  var residual =
-    goo(go.Node, 'Vertical',
-      {
-        locationSpot: go.Spot.Center,
-        mouseEnter: mouseEnter,
-        mouseLeave: mouseLeave,
-        click: click
-      },
-      goo(go.Shape, 'Collate',
-        {
-          "name": "SHAPE", "stroke": "#4d6d9a", "width": 50, "height": 120, cursor: "pointer"
-        },
-        new go.Binding("fill", "color")),
-      goo(go.TextBlock,
-        {
-          margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366"
-        },
-        new go.Binding("text", "desc"))
-    );
+  // var residual =
+  //   goo(go.Node, 'Vertical',
+  //     {
+  //       locationSpot: go.Spot.Center,
+  //       mouseEnter: mouseEnter,
+  //       mouseLeave: mouseLeave,
+  //       click: click
+  //     },
+  //     goo(go.Shape, 'Collate',
+  //       {
+  //         "name": "SHAPE", "stroke": "#4d6d9a", "width": 50, "height": 120, cursor: "pointer"
+  //       },
+  //       new go.Binding("fill", "color")),
+  //     goo(go.TextBlock,
+  //       {
+  //         margin: 5, font: "bold 14px Varela Round", name: "TEXT", stroke: "#5f6366"
+  //       },
+  //       new go.Binding("text", "desc"))
+  //   );
 
   // node template for batch norm
   var batch =
@@ -411,7 +411,7 @@ function init() {
   templateMap.add("cnn", cnn);
   templateMap.add("lstm", lstm);
   templateMap.add("act", act);
-  templateMap.add("res", residual);
+  // templateMap.add("res", residual);
   templateMap.add("batch", batch);
   templateMap.add("maxpool", maxpool);
   palette.nodeTemplateMap = templateMap;
@@ -423,7 +423,7 @@ function init() {
       { key: "2", desc: "CNN", color: "#86b3d1", category: "cnn" },
       { key: "3", desc: "LSTM", color: "#86b3d1", category: "lstm" },
       { key: "4", desc: "Activation", color: "#86b3d1", category: "act" },
-      { key: "5", desc: "Residual", color: "#86b3d1", category: "res" },
+      // { key: "5", desc: "Residual", color: "#86b3d1", category: "res" },
       { key: "6", desc: "Batch Norm", color: "#86b3d1", category: "batch" },
       { key: "7", desc: "Max Pooling 2D", color: "#86b3d1", category: "maxpool" },
     ]
@@ -487,23 +487,19 @@ function init() {
       // LSTM
       case "lstm":
         // check if it's the first layer
-        if (diagram.model.nodeDataArray.length != 0) {
-          alert("Error: LSTM must be the first layer of the network!")
+        var stateSize = prompt("State size: ", 100);
+        var biDirectional = prompt("Bi-directional? Enter yes/no: ", "yes");
+        if (stateSize == null || (biDirectional != "yes" && biDirectional != "no")) {
+          alert("Please enter a valid value!");
         } else {
-          var stateSize = prompt("State size: ", 100);
-          var biDirectional = prompt("Bi-directional? Enter yes/no: ", "yes");
-          if (stateSize == null || (biDirectional != "yes" && biDirectional != "no")) {
-            alert("Please enter a valid value!");
-          } else {
-            biDirectional = "yes" ? true : false;
-            diagram.model.addNodeData(
-              {
-                key: id++, state_size: "" + stateSize, bi_directional: "" + biDirectional,
-                color: "#86b3d1", disp: stateSize, category: cat,
-                tooltip: "LSTM\n" + "state size: " + stateSize + "\n bi-directional: " + biDirectional
-              }
-            ); 
-          }
+          biDirectional = "yes" ? true : false;
+          diagram.model.addNodeData(
+            {
+              key: id++, state_size: "" + stateSize, bi_directional: "" + biDirectional,
+              color: "#86b3d1", disp: stateSize, category: cat,
+              tooltip: "LSTM\n" + "state size: " + stateSize + "\n bi-directional: " + biDirectional
+            }
+          ); 
         }
         break;
       
@@ -528,24 +524,24 @@ function init() {
         break;
       
       // Residual
-      case "res":
-        if (diagram.model.nodeDataArray.length == 0) {
-          alert("Error: Residual cannot be the first layer of the network!")
-        } else {
-          var prev = prompt("Previous layer? Enter 1/2: ", "1");
-          if (prev == null || (prev != "1" && prev != "2")) {
-            alert("Please enter a valid value!");
-          } else {
-            diagram.model.addNodeData(
-              {
-                key: id++, prev_layer: "" + prev,
-                color: "#86b3d1", disp: prev, category: cat,
-                tooltip: "Residual\n" + "previous layer: " + prev
-              }
-            );
-          }
-        }
-        break; 
+      // case "res":
+      //   if (diagram.model.nodeDataArray.length == 0) {
+      //     alert("Error: Residual cannot be the first layer of the network!")
+      //   } else {
+      //     var prev = prompt("Previous layer? Enter 1/2: ", "1");
+      //     if (prev == null || (prev != "1" && prev != "2")) {
+      //       alert("Please enter a valid value!");
+      //     } else {
+      //       diagram.model.addNodeData(
+      //         {
+      //           key: id++, prev_layer: "" + prev,
+      //           color: "#86b3d1", disp: prev, category: cat,
+      //           tooltip: "Residual\n" + "previous layer: " + prev
+      //         }
+      //       );
+      //     }
+      //   }
+      //   break; 
       
       // Batch Norm
       case "batch":
