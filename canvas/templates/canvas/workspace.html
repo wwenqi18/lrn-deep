@@ -32,6 +32,10 @@
 		<script src="{% static "canvas/js/save.js" %}"></script>
         <script src="{% static "canvas/js/open.js" %}"></script>
         <script src="{% static "canvas/js/export.js" %}"></script>
+        <!-- Scripts for jQuery UI -->
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+        <!-- Stylesheets for jQuery UI -->
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
     </head>
     
     <body>
@@ -41,8 +45,27 @@
                 <div id="topbar-wrapper" class="col-md-12">
                     <a href="{% url 'canvas:index' %}" class="topbar-logo btn btn-secondary" id="topbar-brand">LrnDeep</a>
                     <a href="#" class="topbar-btn btn btn-secondary" id="topbar-new">New</a>
-					<button type="button" class="topbar-btn btn btn-secondary" id="topbar-open" method="POST" action_list={% url 'canvas:graph_list' %} action_graph={% url 'canvas:load' %}>Open</button>
+                    
+                    <button type="button" class="topbar-btn btn btn-secondary" id="topbar-open" method="POST" action_list={% url 'canvas:graph_list' %}>Open</button>
+                    <div id="opendialog">
+                        Please choose a canvas to open:
+                        <select id="select-canvas"></select>
+                        <button id="opendialog-btn" style="margin-top: 10px; " method="POST" action_graph={% url 'canvas:load' %}>Done</button>
+                    </div>
+                    
                     <a href="#compile-diagram" class="topbar-btn btn btn-secondary" id="topbar-compile">Compile</a>
+                    <div id="compiledialog">
+                        Enter a name for your network:
+                        <input type="text" id="net_name" placeholder="Default Network" /><br />
+                        Please select a dataset:
+                        <select id="select-dataset">
+                            <option>mnist</option>
+                            <option>cifar10</option>
+                            <option>imdb</option>
+                        </select>
+                        <button id="compiledialog-btn" style="margin-top: 10px; " method="POST" action_graph={% url 'canvas:load' %}>Done</button>
+                    </div>
+
 					<button type="button" class="topbar-btn btn btn-secondary" id="topbar-save" method="POST" action={% url 'canvas:save' %}>Save</button>
                     <a href="#" class="topbar-btn btn btn-secondary" id="topbar-export">Export</a>
                     <a href="#" class="topbar-btn btn btn-secondary" id="topbar-help">Help</a>
@@ -56,6 +79,37 @@
                         <div id="canvas-diagram" class="canvas-section"></div>
                         <!-- <div id="canvas-warehouse" class="canvas-section"></div> -->
                         <div id="canvas-palette" class="canvas-section"></div>
+                        <div id="fcdialog">
+                            Output size: <input type="text" id="fc_output_size" value="100" /><br />
+                            <button id="fcdialog-btn" style="margin-top: 10px; ">Done</button>
+                        </div>
+                        <div id="cnndialog">
+                            Kernel size: <input type="text" id="cnn_kernel_size" value="3" /><br />
+                            Output channels: <input type="text" id="cnn_out_channels" value="3" /><br />
+                            <button id="cnndialog-btn" style="margin-top: 10px; ">Done</button>
+                        </div>
+                        <div id="lstmdialog">
+                            State size: <input type="text" id="lstm_state_size" value="100" /><br />
+                            Bi-directional?<br />
+                            <label for="bidirectional-yes">Yes</label>
+                            <input type="radio" name="bidirectional" id="bidirectional-yes" value="yes" />
+                            <label for="bidirectional-no">No</label>
+                            <input type="radio" name="bidirectional" id="bidirectional-no" value="no" checked /><br />
+                            <button id="lstmdialog-btn" style="margin-top: 10px; ">Done</button>
+                        </div>
+                        <div id="actdialog">
+                            Activation type:
+                            <select id="select-act-type">
+                                <option>sigmoid</option>
+                                <option>tanh</option>
+                                <option>relu</option>
+                            </select>
+                            <button id="actdialog-btn" style="margin-top: 10px; ">Done</button>
+                        </div>
+                        <div id="maxpooldialog">
+                            Pool size: <input type="text" id="maxpool_pool_size" value="2" /><br />
+                            <button id="maxpooldialog-btn" style="margin-top: 10px; ">Done</button>
+                        </div>
                     </div>
                 </div> <!-- /#canvas-wrapper -->
                 <!-- Code -->
@@ -69,7 +123,19 @@
     
         <!-- Top Bar Button Scripts -->
         <script>
+            $("#compiledialog").dialog({
+                autoOpen: false,
+                title: "Open"
+            });
+
             $("#topbar-compile").click(function(e) {
+                e.preventDefault();
+                $("#compiledialog").dialog("open");
+                $("#select-dataset").selectmenu();
+                $("#compiledialog-btn").button();
+            });
+
+            $("#compiledialog-btn").click(function(e) {
                 e.preventDefault();
                 diagramNodes = diagram.model.nodeDataArray;
                 // console.log(diagramNodes);
@@ -91,7 +157,7 @@
                         network.push({
                             "name": "LSTM", 
                             "state_size": diagramNodes[i]["state_size"],
-                            "bi-directional": diagramNodes[i]["bi-directional"]
+                            "bi-directional": diagramNodes[i]["bi_directional"]
                         });
                     } else if (node_name == "fc") {
                         network.push({
@@ -114,12 +180,15 @@
                         });
                     }
                 }
-                // console.log(network);
-                var net_name = prompt("Enter a name for your network: ");
+                console.log(network);
+                var net_name_input = document.getElementById("net_name");
+                var net_name = net_name_input.value;
+                // var net_name = prompt("Enter a name for your network: ");
                 if (net_name == null || net_name == "") {
                     net_name = "Default Network";
                 }
-                var dataset = prompt("Dataset? Enter mnist/cifar10/imdb: ", "mnist");
+                var dataset = $("#select-dataset").find("option:selected").text();
+                // var dataset = prompt("Dataset? Enter mnist/cifar10/imdb: ", "mnist");
                 if (dataset == null || (dataset != "mnist" && dataset != "cifar10" && dataset != "imdb")) {
                     alert("Invalid dataset! Compilation terminated.");
                 } else {
@@ -127,14 +196,15 @@
                         "name": net_name,
                         "dataset": dataset
                     }
+                    // console.log(net_config);
                     generatedCode = compile(network, net_config);
-                    // console.log(network, net_config);
                     // Allow animation for generating code
                     $('#generated-code').fadeOut('fast');
                     document.getElementById("generated-code").innerHTML = generatedCode;
                     $('#generated-code').fadeIn('fast');
                     Prism.highlightElement(document.getElementById("generated-code"));
                 }
+                $("#compiledialog").dialog("close");
             });
 
             // new button function
@@ -152,6 +222,33 @@
             $("#topbar-export").click(function (e) {
                 e.preventDefault();
                 makeBlob();
+                  // Also save .py file
+  var code = document.getElementById("generated-code").textContent;
+  console.log(code);
+
+  var blob2 = new Blob([code]);
+  var url2 = URL.createObjectURL(blob2);
+  var filename2 = "code.py";
+
+  var a2 = document.createElement("a2");
+  a2.style = "display: none";
+  a2.href = url2;
+  a2.download = filename2;
+
+  console.log("crh");
+
+  // IE 11
+  if (window.navigator.msSaveBlob !== undefined) {
+    window.navigator.msSaveBlob(blob2, filename2);
+    return;
+  }
+
+  document.body.appendChild(a2);
+  requestAnimationFrame(function () {
+    a2.click();
+    window.URL.revokeObjectURL(url2);
+    document.body.removeChild(a2);
+  });
               });
             
             // export button function
