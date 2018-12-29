@@ -21,6 +21,25 @@ $ python3 manage.py runserver
 
 The server will start at http://127.0.0.1:8000/.
 
+## Testing
+Python tests:
+```sh
+$ python3 manage.py test [canvas / users]
+```
+
+Coverage:
+```sh
+$ python3 -m coverage run --branch manage.py test
+$ python3 -m coverage report lrndeep/*.py canvas/*.py users/*.py
+```
+
+JavaScript tests:
+```sh
+$ cd js_test
+$ npm test
+$ cd ../
+```
+
 ## Troubleshooting
 1. You have 1 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): users.
 Solution: Run `python3 manage.py migrate --run-syncdb`.
