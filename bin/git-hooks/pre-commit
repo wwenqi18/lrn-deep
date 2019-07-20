@@ -6,6 +6,4 @@
 # Adopted from https://github.com/gailkaiser/coms4156_jumpstart
 
 echo "Performing pre-commit building and testing..."
-python3 manage.py test
-#pylint ../../lrndeep >> ../../reports/precommit_report.txt
-#pylint lrndeep
+python3 -m pylint -ry --load-plugins pylint_django lrndeep/ canvas/ users/ --disable=C,R,W > reports/precommit.txt

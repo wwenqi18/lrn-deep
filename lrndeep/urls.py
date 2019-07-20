@@ -23,4 +23,7 @@ urlpatterns = [
     #path('users/', include('django.contrib.auth.urls')),
     path('canvas/', include('canvas.urls')),
     path('admin/', admin.site.urls),
+
+    path('oath/', include('social_django.urls', namespace = 'social')),
 ]
+#dhoafh

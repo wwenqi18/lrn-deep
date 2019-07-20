@@ -1,16 +1,32 @@
 language: python
+addons:
+  firefox: "63.0.3"
+  sauce_connect:
+    username: "CathyMouse96"
+  jwt:
+    secure: "uhnhWpLmsklgnc7kIZJEfkFsLKlTLFF4G1zfyaDoe5otTMXLiJbpr1k292NZHqsJYN3l+6EXbdHeIWWFE6t9MOy9oA5kv8Z2Qtz9T6Wg6vJ43E0/QGv0qzcvkfaL3vY5UU/TXtOZAGHMdKR3MODsnEPv5VJs7YkRW9pNGevCPKuY70/HWwKk5ILddh5XNZ2teZflHkSC73rrwiMoFWl/JjC83eiDMAT++bQDXZbYFF/HiKYOpDXRBnvnJ7jRfDFeWh/U8Gx0Z7YiLhbP5r+JkR843Wxad+g4VlxaGVyWsnA0XTRzpWxlSWNjKhS1d1lQzHl4p1YFgi2fOdcpRJZbuhcV6Iq4pWsD1pdPNf3b91dae7ozltr64EEjOOreuFCzKrhjFLgLpxGoeeqN+Ml9iiiXV4OBR9YZfYZiZF2Ne7mpFQJz4lQ6N+kUjh7Y8RA5Ys2tqiWElQ26sBAOux/N1MXm7AuLX6WDS9myDOT4Jbfo7NAHzSaOXX6JvypB5wJKxh03GzyRqqIjIRlkxg0L18vkYkFUgkp9Sav06UqEkUodJmwJXW5oYDy3b4CEAnlM6or4qfJ8VUVBh/woCQk0kv3xiIERpO6ZmyKBxe3u1HIFzryOMdUlLJHTlW+teKdpV31shDSjNqzXsCOnKNdILc16prw+AgcJD7QIhj+rEAQ="
 python:
 - '3.5'
 - '3.6'
 - 3.7-dev
 env:
 - DJANGO_VERSION=2.1.2
+before_install:
+- wget https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz
+- mkdir geckodriver
+- tar -xzf geckodriver-v0.23.0-linux64.tar.gz -C geckodriver
+- export PATH=$PATH:$PWD/geckodriver
 install:
 - pip install -r requirements.txt
+before_script:
+- "export DISPLAY=:99.0"
+- "sh -e /etc/init.d/xvfb start"
+- sleep 3 # give xvfb some time to start
+- python3 manage.py makemigrations
+- python3 manage.py migrate --run-syncdb
+- sleep 3 # give server some time to migrate
 script:
-- python3 -m pylint -ry --load-plugins pylint_django canvas/
-- python3 -m pylint -ry --load-plugins pylint_django lrndeep/
-- python3 -m pylint -ry --load-plugins pylint_django users/
-- python3 manage.py test
-dd:
-  secure: edPq31IMYXxPRY4huc19TlBljeYYtb39D+m4bE65yj3kKkxpwZHgJDk3I8sy8DMe4zOoIU7XRvrwEOyXwCV/d91ozqOxBd8Sqe0P8VtaDbtrO2UD9nGnITYIT6119/S1nhIjrom/R8PEVSq9tALxqv/rdZfNcxE+Xr1fSoBPrXzH4cOrCAUpkOqCOcTjGg6uijtA/djSU+ZMKUw76U8xA8hR7uIT21tGNA25n8nlwr6l/5RVvLk+Oid3ClqVusQs6Bt5d6vQsc+EnDpjtMHU7CsIAfY0MR7TTNiY7focMPG131EeQgzmjIC8DrNC270s9t2e8iYtCR0N5hJ9vilSozdQ2N1GtEeTKBse4MuAL+2xuBvBTxud6YGwJCc73amRJuir+ouavaT2TBfbpVmIRT1nyE0qwUbG9L+Fs1Bb65GUqOsAN4XYfVa4ZIwRtf32VbcE+Qe/Cj+bC20dCA2O6CJU0krYwvf9coaTduTc6zJIz1Ib06mxe5NmwgUCDs4jYFhWOXJS+gEK+2cmwNCf5Eyyc7H4LcuprRtBUJk+0WJBXWHvD8jP4kuplPfHX6Oq+5/FkMmvNgWMVP7O6oVFsdVkE94HT3gvn/s/27zOe0TeQKPOXPvlTbmxIUGOijx8gdlN4YYa75++aoJ3vxQjj8tbgEVAdnzkAZTYI6T1Uzk=
+- python3 -m coverage run --branch manage.py test
+- cd js_test; npm test; cd ..
+after_script:
+- python3 -m coverage report lrndeep/*.py canvas/*.py users/*.py

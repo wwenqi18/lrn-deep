@@ -1,0 +1,15 @@
+1. A link to the github repository where your entire codebase resides. https://github.com/CathyMouse96/lrn-deep (Links to an external site.)Links to an external site.
+
+2. The names of the specific files, reachable through the above link, that configure your pre-commit and post-commit CI.
+
+pre-commit: https://github.com/CathyMouse96/lrn-deep/blob/master/bin/git-hooks/pre-commit (Links to an external site.)Links to an external site.
+
+post-commit: https://github.com/CathyMouse96/lrn-deep/blob/master/.travis.yml (Links to an external site.)Links to an external site.
+
+3. The names of the specific folders, reachable through the above link, where the post-commit build, style checker / bug finder, and unit testing reports reside.
+
+build reports: https://github.com/CathyMouse96/lrn-deep/blob/master/reports/postcommit_report.txt (Links to an external site.)Links to an external site.
+
+style checker / bug finder reports: https://github.com/CathyMouse96/lrn-deep/blob/master/reports/report.txt (Links to an external site.)Links to an external site.
+
+unit testing reports: https://github.com/CathyMouse96/lrn-deep/blob/master/reports/testing_report.txt (Links to an external site.)

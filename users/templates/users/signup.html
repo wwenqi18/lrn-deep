@@ -7,7 +7,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 		
-		<title>Log In</title>
+		<title>Sign Up</title>
 		
 		{% load static %}
 		<!-- Bootstrap core CSS -->
@@ -35,7 +35,7 @@
 			  <div class="card-body">
 				<h5 class="card-title text-center">Register</h5>
 				<form class="form-signin" method="post" action={% url 'users:signup' %}>
-					{% csrf_token  %}
+					{% csrf_token %}
 				  <div class="form-label-group">
 					<input type="text" name="username" id="inputUserame" class="form-control" placeholder="Username" required autofocus>
 					<label for="inputUserame">Username</label>
@@ -58,12 +58,16 @@
 					<label for="inputConfirmPassword">Confirm password</label>
 				  </div>
 
+					{{ error }}<br>
+
 				  <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register</button>
 					<a class="d-block text-center mt-2 small" href="{% url 'users:login' %}">Log In</a>
 
+				<!--
 				  <hr class="my-4">
 				  <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign up with Google</button>
 				  <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign up with Facebook</button>
+				-->
 				</form>
 			  </div>
 			</div>
